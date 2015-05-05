@@ -16,8 +16,8 @@ import android.view.View.OnClickListener;
 
 public class MainActivity extends ActionBarActivity {
 
-    Button t1;
-    Context context;
+    Button t1,t3;
+    Context context,context3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,18 @@ public class MainActivity extends ActionBarActivity {
             }
         };
         t1.setOnClickListener(a);
+
+        t3 = (Button) findViewById(R.id.buttonZaloguj);
+        OnClickListener c = new OnClickListener(){
+
+            @Override
+            public void onClick(View v){
+                context3 = getApplicationContext();
+                Intent intent3 = new Intent(context3, MainMenu.class);
+                startActivity(intent3);
+            }
+        };
+        t3.setOnClickListener(c);
     }
 
 
