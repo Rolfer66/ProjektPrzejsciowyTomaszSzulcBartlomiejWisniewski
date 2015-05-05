@@ -16,7 +16,7 @@ import android.view.View.OnClickListener;
 
 public class MainActivity extends ActionBarActivity {
 
-    Button t1,t3;
+    Button t1,t3,t4;
     Context context,context3;
 
     @Override
