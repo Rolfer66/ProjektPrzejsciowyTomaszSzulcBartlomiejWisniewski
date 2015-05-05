@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 public class MainActivity extends ActionBarActivity {
 
     Button t1,t3,t4;
+    Button Tomek;
     Context context,context3;
 
     @Override
