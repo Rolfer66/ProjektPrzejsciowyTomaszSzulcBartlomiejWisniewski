@@ -24,6 +24,10 @@
             android:name=".MainMenu"
             android:label="@string/title_activity_main_menu" >
         </activity>
+        <activity
+            android:name=".ZasadyGry"
+            android:label="@string/title_activity_zasady_gry" >
+        </activity>
     </application>
 
 </manifest>

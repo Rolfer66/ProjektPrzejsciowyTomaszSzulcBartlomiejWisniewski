@@ -12,55 +12,34 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
 
 
-public class MainMenu extends ActionBarActivity {
+public class ZasadyGry extends ActionBarActivity {
 
-    TextView tzasady, tgraj, tstatystyki,twyloguj;
-    Context czasady, cgraj, cstatystyki, cwyloguj;
-
+    Button bpowrot;
+    Context cpowrot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_menu);
+        setContentView(R.layout.activity_zasady_gry);
 
-        tzasady = (TextView) findViewById(R.id.ZasadyGry);     //przejscie do zasad gry
-        OnClickListener zasady = new OnClickListener(){
-
-            @Override
-            public void onClick(View v){
-                czasady = getApplicationContext();
-                Intent intent = new Intent(czasady, ZasadyGry.class);
-                startActivity(intent);
-            }
-        };
-        tzasady.setOnClickListener(zasady);
-
-        twyloguj = (TextView) findViewById(R.id.textView7);     //wylogowanie i przejscie do pierwszego widoku
-        OnClickListener wyloguj = new OnClickListener(){
+        bpowrot = (Button) findViewById(R.id.ZasadyPowrot);     //przejscie menu z zasad gry
+        OnClickListener powrot = new OnClickListener(){
 
             @Override
             public void onClick(View v){
-                cwyloguj = getApplicationContext();
-                Intent intent = new Intent(cwyloguj, MainActivity.class);
+                cpowrot = getApplicationContext();
+                Intent intent = new Intent(cpowrot, MainMenu.class);
                 startActivity(intent);
             }
         };
-        twyloguj.setOnClickListener(wyloguj);
-}
+        bpowrot.setOnClickListener(powrot);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-       // getMenuInflater().inflate(R.menu.menu_main_menu, menu);
-        super.onCreateOptionsMenu(menu);
-        int base = Menu.FIRST;
-        menu.add(base, base, base, "GRAJ!");
-        menu.add(base, base+1, base+1, "TWOJE STATYSTYKI");
-        menu.add(base, base+2, base+2, "ZASADY GRY");
-        menu.add(base, base+3, base+3, "WYLOGUJ");
-
+        getMenuInflater().inflate(R.menu.menu_zasady_gry, menu);
         return true;
     }
 
@@ -70,10 +49,12 @@ public class MainMenu extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }
