@@ -4,14 +4,48 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.tooomasz.projektprzejsciowytomaszszulc.MainMenu">
-
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    tools:context="com.example.tooomasz.projektprzejsciowytomaszszulc.MainMenu"
+    android:id="@+id/GRAJ"
+    android:clickable="true">
 
 
     <TextView
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="STATYSTYKI"
+        android:id="@+id/Statystyki"
+        android:layout_marginTop="64dp"
+        android:layout_below="@+id/textView8"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="ZASADY GRY"
+        android:id="@+id/ZasadyGry"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/Statystyki"
+        android:layout_alignStart="@+id/Statystyki" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="WYLOGUJ"
+        android:id="@+id/textView7"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="GRAJ"
+        android:id="@+id/textView8"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp" />
 </RelativeLayout>

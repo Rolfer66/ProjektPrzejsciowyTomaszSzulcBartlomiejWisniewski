@@ -21,7 +21,7 @@ public class Rejestracja extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rejestracja);
 
-        t2=(Button) findViewById(R.id.UtworzKonto);
+        t2=(Button) findViewById(R.id.UtworzKonto); //powrot po rejestracji do logowania
         OnClickListener b = new OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -25,7 +25,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        t1 = (Button) findViewById(R.id.button);
+        t1 = (Button) findViewById(R.id.button);     //przejscie do rejestracji
         OnClickListener a = new OnClickListener(){
 
             @Override
@@ -37,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
         };
         t1.setOnClickListener(a);
 
-        t3 = (Button) findViewById(R.id.buttonZaloguj);
+        t3 = (Button) findViewById(R.id.buttonZaloguj);  //przejscie do glownego menu po zalogowaniu
         OnClickListener c = new OnClickListener(){
 
             @Override
