@@ -16,28 +16,16 @@ import android.view.View.OnClickListener;
 
 public class MainActivity extends ActionBarActivity {
 
-    Button t1,t3;
-    Button Tomek;
-    Context context,context3;
+    Button t3;
+    Context context3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        t1 = (Button) findViewById(R.id.button);     //przejscie do rejestracji
-        OnClickListener a = new OnClickListener(){
 
-            @Override
-            public void onClick(View v){
-                context = getApplicationContext();
-                Intent intent = new Intent(context, Rejestracja.class);
-                startActivity(intent);
-            }
-        };
-        t1.setOnClickListener(a);
-
-        t3 = (Button) findViewById(R.id.buttonZaloguj);  //przejscie do glownego menu po zalogowaniu
+        t3 = (Button) findViewById(R.id.buttonZaloguj);
         OnClickListener c = new OnClickListener(){
 
             @Override

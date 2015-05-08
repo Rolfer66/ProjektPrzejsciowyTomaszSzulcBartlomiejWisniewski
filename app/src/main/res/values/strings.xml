@@ -6,4 +6,6 @@
     <string name="title_activity_rejestracja">Rejestracja</string>
     <string name="title_activity_main_menu">MainMenu</string>
     <string name="title_activity_zasady_gry">ZasadyGry</string>
+    <string name="Zagraj">Zagraj</string>
+    <string name="title_activity_zygzak">Zygzak</string>
 </resources>

@@ -1,54 +1,50 @@
 package com.example.tooomasz.projektprzejsciowytomaszszulc;
 
+import android.content.Context;
+
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
+import android.widget.Button;
 
 
 public class MainMenu extends ActionBarActivity {
 
-    TextView tzasady, tgraj, tstatystyki,twyloguj;
-    Context czasady, cgraj, cstatystyki, cwyloguj;
+
+
+    Context context1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        tzasady = (TextView) findViewById(R.id.ZasadyGry);     //przejscie do zasad gry
-        OnClickListener zasady = new OnClickListener(){
+
+        Button P1;
+
+
+        P1= (Button)findViewById(R.id.buttonZagraj);
+        OnClickListener c = new OnClickListener(){
+
 
             @Override
             public void onClick(View v){
-                czasady = getApplicationContext();
-                Intent intent = new Intent(czasady, ZasadyGry.class);
+                context1 = getApplicationContext();
+                Intent intent = new Intent(context1,Zygzak.class);
                 startActivity(intent);
             }
         };
-        tzasady.setOnClickListener(zasady);
+        P1.setOnClickListener(c);
 
-        twyloguj = (TextView) findViewById(R.id.textView7);     //wylogowanie i przejscie do pierwszego widoku
-        OnClickListener wyloguj = new OnClickListener(){
 
-            @Override
-            public void onClick(View v){
-                cwyloguj = getApplicationContext();
-                Intent intent = new Intent(cwyloguj, MainActivity.class);
-                startActivity(intent);
-            }
-        };
-        twyloguj.setOnClickListener(wyloguj);
-}
+
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,4 +72,5 @@ public class MainMenu extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

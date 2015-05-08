@@ -17,16 +17,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Rejestracja"
-            android:label="@string/title_activity_rejestracja" >
-        </activity>
-        <activity
             android:name=".MainMenu"
             android:label="@string/title_activity_main_menu" >
         </activity>
         <activity
             android:name=".ZasadyGry"
             android:label="@string/title_activity_zasady_gry" >
+        </activity>
+        <activity
+            android:name=".Zygzak"
+            android:label="@string/title_activity_zygzak" >
         </activity>
     </application>
 
