@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathMeasure;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -29,7 +30,7 @@ public class Zygzak extends Activity {
     }
 
     class CanvasView extends View {
-        Random random = new Random();
+        //Random random = new Random();
 
         public CanvasView(Context context) {
             super(context);
@@ -46,13 +47,14 @@ public class Zygzak extends Activity {
             paint.setStrokeCap(Paint.Cap.ROUND);
             //paint.setARGB(255,125,235,56);
             Path p = new Path();
-            p.moveTo(400,500);
-            p.lineTo(150, 300);
-            p.lineTo(250,350);
-            //p.close();
-            canvas.drawPath(p,paint);
+            p.moveTo(50, 50);
+            p.lineTo(100, 50);
+            p.lineTo(100, 100);
+            p.lineTo(80, 100); // cos
+            canvas.drawPath(p, paint);
 
-            //canvas.drawLine(0,0,500,890,paint);
+
+
         }
 
     }
