@@ -6,20 +6,27 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
+import android.graphics.Point;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
 
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Zygzak extends Activity {
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Path p = new Path();
+    List<Point> points = new ArrayList<Point>();
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +57,7 @@ public class Zygzak extends Activity {
             canvas.drawRGB(80, 80, 80);
             canvas.drawPath(p, paint);
 
+
             //paint.setARGB(255,125,235,56);
 
 
@@ -74,10 +82,14 @@ public class Zygzak extends Activity {
                     p.moveTo(eventX,eventY);
                     return true;
                 case MotionEvent.ACTION_MOVE:   // Przesunięcie palca
-                    p.lineTo(eventX,eventY);
+                    points.add(new Point(eventX, eventY));
+
+                    p.lineTo(eventX, eventY);
                     return true;
                 case MotionEvent.ACTION_UP: // Palec zabrany z ekranu
-                    // TODO
+                    // TODO reakcja na zabranie palca
+                    int d = points.size();
+                    Log.d("dupa","Rozmiar: "+d);
 
                     break;
                 default:
@@ -88,6 +100,19 @@ public class Zygzak extends Activity {
         }
 
     }
+
+    public class Point
+    {
+        private float x,y;
+        public float getX() { return x;}
+        public float getY() { return y;}
+        public void setX(int x) { this.x=x;}
+        public void setY(int y) { this.y=y;}
+
+        public Point() {}
+        public Point(float x,float y) { this.x=x; this.y=y;}
+    }
+
 
 
 
