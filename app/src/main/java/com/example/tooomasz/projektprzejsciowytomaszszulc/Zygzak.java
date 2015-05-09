@@ -11,12 +11,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.graphics.Canvas;
+import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.Random;
+
 
 
 public class Zygzak extends Activity {
+    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    Path p = new Path();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,30 +37,59 @@ public class Zygzak extends Activity {
 
         public CanvasView(Context context) {
             super(context);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(6f);
+            paint.setColor(Color.YELLOW);
+            paint.setStrokeJoin(Paint.Join.ROUND);
+            paint.setStrokeCap(Paint.Cap.ROUND);
         }
+
 
         @Override
         protected void onDraw(Canvas canvas) {
             canvas.drawRGB(80, 80, 80);
-            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(10);
-            paint.setColor(Color.YELLOW);
-            paint.setStrokeJoin(Paint.Join.ROUND);
-            paint.setStrokeCap(Paint.Cap.ROUND);
+            canvas.drawPath(p, paint);
+
             //paint.setARGB(255,125,235,56);
-            Path p = new Path();
+
+
+            /*
             p.moveTo(50, 50);
             p.lineTo(100, 50);
             p.lineTo(100, 100);
             p.lineTo(80, 100); // cos
-            canvas.drawPath(p, paint);
+            */
+
 
 
 
         }
+        public boolean onTouchEvent(MotionEvent event)
+        {
+            float eventX = event.getX();
+            float eventY = event.getY();
+
+            switch(event.getAction()){
+                case MotionEvent.ACTION_DOWN:   // Wykryto  nowy dotyk
+                    p.moveTo(eventX,eventY);
+                    return true;
+                case MotionEvent.ACTION_MOVE:   // Przesunięcie palca
+                    p.lineTo(eventX,eventY);
+                    return true;
+                case MotionEvent.ACTION_UP: // Palec zabrany z ekranu
+                    // TODO
+
+                    break;
+                default:
+                    return false;
+            }
+            invalidate();
+            return true;
+        }
 
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
