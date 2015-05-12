@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -117,6 +118,10 @@ public class Zygzak extends Activity {
                         error1=Error();
                     Log.d("dupa","Rozmiar: "+error1);
                     Log.d("lol","rozmiar wzoru: "+PatternPt.size());
+                    Context contextT = getApplicationContext();
+                    String message = "Błąd: "+error1/rozmiar;
+                    Toast toast = Toast.makeText(contextT,message,Toast.LENGTH_SHORT);
+                    toast.show();
                     break;
                 default:
                     return false;
