@@ -23,9 +23,11 @@ import java.util.List;
 public class Zygzak extends Activity {
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Path p = new Path();
-    List<Point> points = new ArrayList<Point>();
-
-
+    Paint WzorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    Path Wzor1 = new Path();
+    List<Point> UserPt = new ArrayList<Point>();
+    List<Point> PatternPt = new ArrayList<Point>();
+    List<Wzory> Wzory = new ArrayList<Wzory>();
 
 
     @Override
@@ -45,23 +47,33 @@ public class Zygzak extends Activity {
         public CanvasView(Context context) {
             super(context);
             paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(6f);
-            paint.setColor(Color.YELLOW);
+            paint.setStrokeWidth(10f);
+            paint.setColor(Color.RED);
             paint.setStrokeJoin(Paint.Join.ROUND);
             paint.setStrokeCap(Paint.Cap.ROUND);
+            WzorPaint.setStyle(Paint.Style.STROKE);
+            WzorPaint.setStrokeWidth(10f);
+            WzorPaint.setColor(Color.YELLOW);
+            WzorPaint.setStrokeJoin(Paint.Join.ROUND);
+            WzorPaint.setStrokeCap(Paint.Cap.ROUND);
         }
 
         @Override
-        protected void onDraw(Canvas canvas) {
+        public void onDraw(Canvas canvas) {
+
+            //paint.setARGB(255,125,235,56);
+
+            Wzor1.moveTo(150, 250);
+            Wzor1.lineTo(150,450);
+            Wzor1.lineTo(300, 400);
+            Wzor1.lineTo(300, 600);
+
+
+
             canvas.drawRGB(80, 80, 80);
             canvas.drawPath(p, paint);
-            //paint.setARGB(255,125,235,56);
-            /*
-            p.moveTo(50, 50);
-            p.lineTo(100, 50);
-            p.lineTo(100, 100);
-            p.lineTo(80, 100); // cos
-            */
+            canvas.drawPath(Wzor1, WzorPaint);
+
         }
 
         public boolean onTouchEvent(MotionEvent event)
@@ -74,13 +86,13 @@ public class Zygzak extends Activity {
                     p.moveTo(eventX,eventY);
                     return true;
                 case MotionEvent.ACTION_MOVE:   // Przesunięcie palca
-                    points.add(new Point(eventX, eventY));
+                    UserPt.add(new Point(eventX, eventY));
 
                     p.lineTo(eventX, eventY);
                     return true;
                 case MotionEvent.ACTION_UP: // Palec zabrany z ekranu
                     // TODO reakcja na zabranie palca
-                    int d = points.size();
+                    int d = UserPt.size();
                     Log.d("dupa","Rozmiar: "+d);
 
                     break;
@@ -90,7 +102,6 @@ public class Zygzak extends Activity {
             invalidate();
             return true;
         }
-
     }
 
     public class Point
@@ -105,13 +116,18 @@ public class Zygzak extends Activity {
         public Point(float x,float y) { this.x=x; this.y=y;}
     }
 
+    public class Wzory{
+
+
+    }
+
 
 /*
 
 for (int i=0; i<= points.size(); i++) {
     int MinX=500, MinY=500;           //zakladamy maxymalny blad dla wsp x i y
 
-    if(points[i].getX()<MinX)         // sprawdzamy ktory punkt z naszego przebiegu jest najblizszy punktowi ze wzoru.
+    if(points[i].getX()-Punkty<MinX)         // sprawdzamy ktory punkt z naszego przebiegu jest najblizszy punktowi ze wzoru.
         MinX = points[i].getX();        // przypisujemy odpowiednie wartosci punktu
     if(points[i].getY()<MinY)
         MinY = points[i].getY();
@@ -119,17 +135,6 @@ for (int i=0; i<= points.size(); i++) {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
  */
 
     @Override
