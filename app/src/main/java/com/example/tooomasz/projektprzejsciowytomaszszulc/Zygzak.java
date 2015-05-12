@@ -51,27 +51,19 @@ public class Zygzak extends Activity {
             paint.setStrokeCap(Paint.Cap.ROUND);
         }
 
-
         @Override
         protected void onDraw(Canvas canvas) {
             canvas.drawRGB(80, 80, 80);
             canvas.drawPath(p, paint);
-
-
             //paint.setARGB(255,125,235,56);
-
-
             /*
             p.moveTo(50, 50);
             p.lineTo(100, 50);
             p.lineTo(100, 100);
             p.lineTo(80, 100); // cos
             */
-
-
-
-
         }
+
         public boolean onTouchEvent(MotionEvent event)
         {
             float eventX = event.getX();
@@ -114,7 +106,31 @@ public class Zygzak extends Activity {
     }
 
 
+/*
 
+for (int i=0; i<= points.size(); i++) {
+    int MinX=500, MinY=500;           //zakladamy maxymalny blad dla wsp x i y
+
+    if(points[i].getX()<MinX)         // sprawdzamy ktory punkt z naszego przebiegu jest najblizszy punktowi ze wzoru.
+        MinX = points[i].getX();        // przypisujemy odpowiednie wartosci punktu
+    if(points[i].getY()<MinY)
+        MinY = points[i].getY();
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+ */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
