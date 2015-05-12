@@ -117,7 +117,7 @@ public class Zygzak extends Activity {
     }
 
     public class Wzory{
-
+            public void Wzor1(){};
 
     }
 
