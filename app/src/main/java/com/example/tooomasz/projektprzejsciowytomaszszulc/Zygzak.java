@@ -18,33 +18,34 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
-
+import java.util.Random;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Zygzak extends Activity {
+
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Path p = new Path();
     Paint WzorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Path Wzor = new Path();
+
     List<Point> UserPt = new ArrayList<Point>();
     List<Point> PatternPt = new ArrayList<Point>();
-    List<Double> Poprawnosc = new ArrayList<Double>();
+
     Wzory Wzor1 = new Wzory();
-    double error=0;
-    double Min=2000;
-    double error1=0;
-    int rozmiar =5;
 
     public double Error(){
-        //UserPt.toArray();
+
+        double Min=2000;
+        double error=0;
+
         for(int i=0; i<PatternPt.size();i++){
              for(int j=0; j<UserPt.size();j++)
                  if(Math.sqrt(Math.pow(UserPt.get(j).getX() - PatternPt.get(i).getX(), 2) + Math.pow(UserPt.get(j).getY()-PatternPt.get(i).getY(),2)) < Min){
                     Min = Math.sqrt(Math.pow(UserPt.get(j).getX() - PatternPt.get(i).getX(), 2) + Math.pow(UserPt.get(j).getY() - PatternPt.get(i).getY(), 2));
-                     Log.d("LOL","Blad: "+Min);
+                     Log.d("Blad","Blad z petli: "+Min);
                  }
                  error = error + Min;
                 Min=2000;
@@ -65,6 +66,14 @@ public class Zygzak extends Activity {
 
     class CanvasView extends View {
         //Random random = new Random();
+        int rozmiar=0;
+        int rand=0;
+       // Random r = new Random();
+     //   int znak=0;
+
+
+
+
 
         public CanvasView(Context context) {
             super(context);
@@ -83,49 +92,92 @@ public class Zygzak extends Activity {
 
         @Override
         public void onDraw(Canvas canvas) {
-
             //paint.setARGB(255,125,235,56);
-            Wzor1.RysujWzor1();
-
+           // int op=0;
+               //Losowanie wzorow z bazy
+        //    rand = r.nextInt(2);
+            /*switch(rand){
+                case 0:
+                   Wzor1.RysujWzor1();
+                   rozmiar = 5;
+                    break;
+                case 1:
+                    Wzor1.RysujWzor2();
+                    rozmiar = 25;
+                    break;
+            }
+            */
+            Wzor1.RysujWzor1(); //Wyrysowanie wzoru metoda z klasy Wzory.
+            rozmiar = 5;   //WZOR ZMIEN W PETLI!!!
 
             canvas.drawRGB(80, 80, 80);
-
-            canvas.drawPath(Wzor, WzorPaint);
-
-
-
-            canvas.drawPath(p, paint);
+            canvas.drawPath(Wzor, WzorPaint);  //rysowanie wzoru
+            canvas.drawPath(p, paint);      //rysowanie ruchu uzytkownika
 
         }
 
-        public boolean onTouchEvent(MotionEvent event)
-        {
+        public boolean onTouchEvent(MotionEvent event) {
             float eventX = event.getX();
             float eventY = event.getY();
+            double poprawnosc;
+            double BladGlowny = 0;
 
-            switch(event.getAction()){
+
+            switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:   // Wykryto  nowy dotyk
-                    p.moveTo(eventX,eventY);
-                    return true;
-                case MotionEvent.ACTION_MOVE:   // Przesunięcie palca
-                    UserPt.add(new Point(eventX, eventY));
 
+                    p.moveTo(eventX, eventY);
+                    return true;
+
+                case MotionEvent.ACTION_MOVE:   // Przesunięcie palca
+
+                    UserPt.add(new Point(eventX, eventY));
                     p.lineTo(eventX, eventY);
                     return true;
+
                 case MotionEvent.ACTION_UP: // Palec zabrany z ekranu
-                    // TODO reakcja na zabranie palca
-                    if(rozmiar==5) //sprawdzenie poprawnosci wykorzystania
-                        error1=Error();
-                    Log.d("dupa","Rozmiar: "+error1);
-                    Log.d("lol","rozmiar wzoru: "+PatternPt.size());
                     Context contextT = getApplicationContext();
-                    String message = "Błąd: "+error1/rozmiar;
-                    Toast toast = Toast.makeText(contextT,message,Toast.LENGTH_SHORT);
-                    toast.show();
-                    break;
-                default:
-                    return false;
-            }
+                    rozmiar = PatternPt.size();
+                    //sprawdzenie poprawnosci wykorzystania//
+
+                    if (rozmiar == 5) {
+                        BladGlowny = Error();
+                        Log.d("nazwa", "Blad ostateczny:: " + BladGlowny);  //podglad sumy odleglosci od wszystkich punktow w pikselach
+                        Log.d("nazwa1", "rozmiar wzoru: " + PatternPt.size()); //podglad rozmiaru wzoru
+
+                        poprawnosc = 100 - BladGlowny / rozmiar;            //NASZA SKALA OCENIANIA Ilosc pikseli/5;
+                        poprawnosc *= 100; // pi = pi * 100;    ///zaokraglenie liczby do dwoch miejsc po przecinku
+                        poprawnosc = Math.round(poprawnosc);
+                        poprawnosc /= 100; // pi = pi / 100;
+                        String message = "Poprawność: " + (poprawnosc) + "% dla " + PatternPt.size() + " badanych punktow , Suma Pikseli: " + BladGlowny;  // komunikat o uzyskanym wyniku
+                        Toast toast = Toast.makeText(contextT, message, Toast.LENGTH_LONG);
+                        toast.show();
+
+/*
+                        znak=rand;
+                        rozmiar = 0;
+                        do {
+                            rand = r.nextInt(2);
+                        }while(znak!=rand);
+*/
+                            break;
+                     }
+                    else {
+                        Log.d("nazwa1", "rozmiar wzoru: " + PatternPt.size()); //podglad rozmiaru wzoru
+                        String ZlyRozmiar = "Oderwales palec od ekranu. Sprobuj jeszcze raz! Rozmiar: " + rozmiar +"dla rand: "+rand;  // komunikat o uzyskanym wyniku
+                        Toast toast = Toast.makeText(contextT, ZlyRozmiar, Toast.LENGTH_LONG);
+                        toast.show();
+  /*                      znak=rand;
+                        rozmiar = 0;
+                        do {
+                            rand = r.nextInt(2);
+                        }while(znak!=rand);
+*/
+                        break;
+                    }
+                    default:
+                        return false;
+                }
             invalidate();
             return true;
         }
@@ -144,58 +196,79 @@ public class Zygzak extends Activity {
     }
 
     public class Wzory{
-            public void RysujWzor1(){
-                Wzor.moveTo(100,100); PatternPt.add(new Point(100,100));
-                Wzor.lineTo(350,200); PatternPt.add(new Point(350, 200));
-                Wzor.lineTo(150,350); PatternPt.add(new Point(150,350));
-                Wzor.lineTo(350,500); PatternPt.add(new Point(350, 500));
-                Wzor.lineTo(150,600); PatternPt.add(new Point(150,600));
 
+            public void RysujWzor1() {
+                Wzor.moveTo(100, 100);
+                PatternPt.add(new Point(100, 100));
+                Wzor.lineTo(350, 200);
+                PatternPt.add(new Point(350, 200));
+                Wzor.lineTo(150, 350);
+                PatternPt.add(new Point(150, 350));
+                Wzor.lineTo(350, 500);
+                PatternPt.add(new Point(350, 500));
+                Wzor.lineTo(150, 600);
+                PatternPt.add(new Point(150, 600));
+            }
 
-              /*  Wzor.moveTo(100,100); PatternPt.add(new Point(100,100));
-                Wzor.lineTo(150, 150); PatternPt.add(new Point(150, 150));
-                Wzor.lineTo(200, 200); PatternPt.add(new Point(200, 200));
-                Wzor.lineTo(250, 125); PatternPt.add(new Point(250, 125));
-                Wzor.lineTo(300, 150); PatternPt.add(new Point(300, 150));
-                Wzor.lineTo(350, 225); PatternPt.add(new Point(350, 225));
-                Wzor.lineTo(400, 300); PatternPt.add(new Point(400, 300));
-                Wzor.lineTo(350, 350); PatternPt.add(new Point(350, 350));
-                Wzor.lineTo(300, 400); PatternPt.add(new Point(300, 400));
-                Wzor.lineTo(240, 375); PatternPt.add(new Point(240, 375));
-                Wzor.lineTo(150, 350); PatternPt.add(new Point(150, 350));
-                Wzor.lineTo(125, 450); PatternPt.add(new Point(125, 450));
-                Wzor.lineTo(100, 550); PatternPt.add(new Point(100, 550));
-                Wzor.lineTo(175, 575); PatternPt.add(new Point(175, 575));
-                Wzor.lineTo(250, 600); PatternPt.add(new Point(250, 600));
-                Wzor.lineTo(300, 650); PatternPt.add(new Point(300, 650));
-                Wzor.lineTo(350, 700); PatternPt.add(new Point(350, 700));
-                Wzor.lineTo(300, 750); PatternPt.add(new Point(300, 750));
-                Wzor.lineTo(250, 700); PatternPt.add(new Point(250, 700));
-                Wzor.lineTo(175, 750); PatternPt.add(new Point(175, 750));
-                Wzor.lineTo(100, 700); PatternPt.add(new Point(100, 700));
-                Wzor.lineTo(275, 650); PatternPt.add(new Point(275, 650));
-                Wzor.lineTo(400, 600); PatternPt.add(new Point(400, 600));
-                Wzor.lineTo(375, 550); PatternPt.add(new Point(375, 550));
-                Wzor.lineTo(350, 500); PatternPt.add(new Point(350,500)); */
+        public void RysujWzor2() {
+            Wzor.moveTo(100, 100);
+            PatternPt.add(new Point(100, 100));
+            Wzor.lineTo(150, 150);
+            PatternPt.add(new Point(150, 150));
+            Wzor.lineTo(200, 200);
+            PatternPt.add(new Point(200, 200));
+            Wzor.lineTo(250, 125);
+            PatternPt.add(new Point(250, 125));
+            Wzor.lineTo(300, 150);
+            PatternPt.add(new Point(300, 150));
+            Wzor.lineTo(350, 225);
+            PatternPt.add(new Point(350, 225));
+            Wzor.lineTo(400, 300);
+            PatternPt.add(new Point(400, 300));
+            Wzor.lineTo(350, 350);
+            PatternPt.add(new Point(350, 350));
+            Wzor.lineTo(300, 400);
+            PatternPt.add(new Point(300, 400));
+            Wzor.lineTo(240, 375);
+            PatternPt.add(new Point(240, 375));
+            Wzor.lineTo(150, 350);
+            PatternPt.add(new Point(150, 350));
+            Wzor.lineTo(125, 450);
+            PatternPt.add(new Point(125, 450));
+            Wzor.lineTo(100, 550);
+            PatternPt.add(new Point(100, 550));
+            Wzor.lineTo(175, 575);
+            PatternPt.add(new Point(175, 575));
+            Wzor.lineTo(250, 600);
+            PatternPt.add(new Point(250, 600));
+            Wzor.lineTo(300, 650);
+            PatternPt.add(new Point(300, 650));
+            Wzor.lineTo(350, 700);
+            PatternPt.add(new Point(350, 700));
+            Wzor.lineTo(300, 750);
+            PatternPt.add(new Point(300, 750));
+            Wzor.lineTo(250, 700);
+            PatternPt.add(new Point(250, 700));
+            Wzor.lineTo(175, 750);
+            PatternPt.add(new Point(175, 750));
+            Wzor.lineTo(100, 700);
+            PatternPt.add(new Point(100, 700));
+            Wzor.lineTo(275, 650);
+            PatternPt.add(new Point(275, 650));
+            Wzor.lineTo(400, 600);
+            PatternPt.add(new Point(400, 600));
+            Wzor.lineTo(375, 550);
+            PatternPt.add(new Point(375, 550));
+            Wzor.lineTo(350, 500);
+            PatternPt.add(new Point(350, 500));
             };
+
+
             public Wzory(){}
     }
 
 
-/*
 
-for (int i=0; i<= points.size(); i++) {
-    int MinX=500, MinY=500;           //zakladamy maxymalny blad dla wsp x i y
-
-    if(points[i].getX()-Punkty<MinX)         // sprawdzamy ktory punkt z naszego przebiegu jest najblizszy punktowi ze wzoru.
-        MinX = points[i].getX();        // przypisujemy odpowiednie wartosci punktu
-    if(points[i].getY()<MinY)
-        MinY = points[i].getY();
-
-
-
-}
- */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
