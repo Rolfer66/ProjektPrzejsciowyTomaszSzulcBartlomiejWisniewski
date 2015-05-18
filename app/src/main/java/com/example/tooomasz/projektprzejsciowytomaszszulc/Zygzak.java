@@ -22,20 +22,27 @@ import java.util.Random;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Handler;
 
 
 public class Zygzak extends Activity {
 
+
+    //Random random = new Random();
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Path p = new Path();
     Paint WzorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Path Wzor = new Path();
-
-    List<Point> UserPt = new ArrayList<Point>();
+    //Canvas drawCanvas;
     List<Point> PatternPt = new ArrayList<Point>();
+    List<Path> paths = new ArrayList<Path>();
+
 
     Wzory Wzor1 = new Wzory();
 
+    /*
     public double Error(){
 
         double Min=2000;
@@ -52,6 +59,7 @@ public class Zygzak extends Activity {
         }
         return error;
     };
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +72,11 @@ public class Zygzak extends Activity {
          */
     }
 
-    class CanvasView extends View {
-        //Random random = new Random();
-        int rozmiar=0;
-        int rand=0;
-       // Random r = new Random();
-     //   int znak=0;
+    public class CanvasView extends View {
+
+        Path drawPath;
+        Paint drawPaint;
+        Canvas drawCanvas;
 
 
 
@@ -88,14 +95,29 @@ public class Zygzak extends Activity {
             WzorPaint.setStrokeJoin(Paint.Join.ROUND);
             WzorPaint.setStrokeCap(Paint.Cap.ROUND);
             WzorPaint.setPathEffect(new CornerPathEffect(15));
+            setupDrawing();
+        }
+
+        void setupDrawing()
+        {
+            drawPath = new Path();
+            drawPaint = new Paint();
+            drawCanvas = new Canvas();
+
+            drawPaint.setStyle(Paint.Style.STROKE);
+            drawPaint.setStrokeWidth(11f);
+            drawPaint.setColor(Color.RED);
+            drawPaint.setStrokeJoin(Paint.Join.ROUND);
+            drawPaint.setStrokeCap(Paint.Cap.ROUND);
+
+
+
         }
 
         @Override
         public void onDraw(Canvas canvas) {
-            //paint.setARGB(255,125,235,56);
-           // int op=0;
-               //Losowanie wzorow z bazy
-        //    rand = r.nextInt(2);
+            //Losowanie wzorow z bazy
+            //    rand = r.nextInt(2);
             /*switch(rand){
                 case 0:
                    Wzor1.RysujWzor1();
@@ -108,79 +130,60 @@ public class Zygzak extends Activity {
             }
             */
             Wzor1.RysujWzor1(); //Wyrysowanie wzoru metoda z klasy Wzory.
-            rozmiar = 5;   //WZOR ZMIEN W PETLI!!!
 
             canvas.drawRGB(80, 80, 80);
             canvas.drawPath(Wzor, WzorPaint);  //rysowanie wzoru
-            canvas.drawPath(p, paint);      //rysowanie ruchu uzytkownika
+            canvas.drawPath(drawPath,drawPaint);
 
         }
-
+        //@Override
         public boolean onTouchEvent(MotionEvent event) {
             float eventX = event.getX();
             float eventY = event.getY();
-            double poprawnosc;
-            double BladGlowny = 0;
 
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:   // Wykryto  nowy dotyk
 
-                    p.moveTo(eventX, eventY);
-                    return true;
+                    drawPath.moveTo(eventX, eventY);
+
+                    break;
 
                 case MotionEvent.ACTION_MOVE:   // Przesunięcie palca
 
-                    UserPt.add(new Point(eventX, eventY));
-                    p.lineTo(eventX, eventY);
-                    return true;
+                    drawPath.lineTo(eventX, eventY);
+                    drawCanvas.drawPath(drawPath, drawPaint);
+                    drawPath.moveTo(eventX, eventY);
+                    break;
 
                 case MotionEvent.ACTION_UP: // Palec zabrany z ekranu
-                    Context contextT = getApplicationContext();
-                    rozmiar = PatternPt.size();
-                    //sprawdzenie poprawnosci wykorzystania//
 
-                    if (rozmiar == 5) {
-                        BladGlowny = Error();
-                        Log.d("nazwa", "Blad ostateczny:: " + BladGlowny);  //podglad sumy odleglosci od wszystkich punktow w pikselach
-                        Log.d("nazwa1", "rozmiar wzoru: " + PatternPt.size()); //podglad rozmiaru wzoru
+                    drawCanvas.drawPath(drawPath, drawPaint);
+                    paths.add(drawPath);
+                    Log.d("cos", "Liczba sciezek: " + paths.size());
 
-                        poprawnosc = 100 - BladGlowny / rozmiar;            //NASZA SKALA OCENIANIA Ilosc pikseli/5;
-                        poprawnosc *= 100; // pi = pi * 100;    ///zaokraglenie liczby do dwoch miejsc po przecinku
-                        poprawnosc = Math.round(poprawnosc);
-                        poprawnosc /= 100; // pi = pi / 100;
-                        String message = "Poprawność: " + (poprawnosc) + "% dla " + PatternPt.size() + " badanych punktow , Suma Pikseli: " + BladGlowny;  // komunikat o uzyskanym wyniku
-                        Toast toast = Toast.makeText(contextT, message, Toast.LENGTH_LONG);
-                        toast.show();
+                    /*
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            drawPath.reset();
+                        }
+                    }, 2000);
+                    */
 
-/*
-                        znak=rand;
-                        rozmiar = 0;
-                        do {
-                            rand = r.nextInt(2);
-                        }while(znak!=rand);
-*/
-                            break;
-                     }
-                    else {
-                        Log.d("nazwa1", "rozmiar wzoru: " + PatternPt.size()); //podglad rozmiaru wzoru
-                        String ZlyRozmiar = "Oderwales palec od ekranu. Sprobuj jeszcze raz! Rozmiar: " + rozmiar +"dla rand: "+rand;  // komunikat o uzyskanym wyniku
-                        Toast toast = Toast.makeText(contextT, ZlyRozmiar, Toast.LENGTH_LONG);
-                        toast.show();
-  /*                      znak=rand;
-                        rozmiar = 0;
-                        do {
-                            rand = r.nextInt(2);
-                        }while(znak!=rand);
-*/
-                        break;
-                    }
+
+
+                    break;
+
+
+
                     default:
                         return false;
                 }
             invalidate();
             return true;
         }
+
     }
 
     public class Point
