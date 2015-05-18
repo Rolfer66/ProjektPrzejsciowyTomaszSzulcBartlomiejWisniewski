@@ -31,23 +31,16 @@ public class Zygzak extends Activity {
 
 
     //Random random = new Random();
-    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    Path p = new Path();
-    Paint WzorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
     Path Wzor = new Path();
-    //Canvas drawCanvas;
     List<Point> PatternPt = new ArrayList<Point>();
     List<Path> paths = new ArrayList<Path>();
-
-
-    Wzory Wzor1 = new Wzory();
+    Tory Wzor1 = new Tory();
 
     /*
     public double Error(){
-
         double Min=2000;
         double error=0;
-
         for(int i=0; i<PatternPt.size();i++){
              for(int j=0; j<UserPt.size();j++)
                  if(Math.sqrt(Math.pow(UserPt.get(j).getX() - PatternPt.get(i).getX(), 2) + Math.pow(UserPt.get(j).getY()-PatternPt.get(i).getY(),2)) < Min){
@@ -75,42 +68,35 @@ public class Zygzak extends Activity {
     public class CanvasView extends View {
 
         Path drawPath;
-        Paint drawPaint;
+        Paint drawPaint, WzorPaint;
         Canvas drawCanvas;
-
-
-
 
 
         public CanvasView(Context context) {
             super(context);
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(11f);
-            paint.setColor(Color.RED);
-            paint.setStrokeJoin(Paint.Join.ROUND);
-            paint.setStrokeCap(Paint.Cap.ROUND);
+
+            setupDrawing();
+        }
+
+        void setupDrawing()
+        {
+            WzorPaint = new Paint();
+            drawPaint = new Paint();
+            drawCanvas = new Canvas();
+            drawPath = new Path();
+
             WzorPaint.setStyle(Paint.Style.STROKE);
             WzorPaint.setStrokeWidth(11f);
             WzorPaint.setColor(Color.YELLOW);
             WzorPaint.setStrokeJoin(Paint.Join.ROUND);
             WzorPaint.setStrokeCap(Paint.Cap.ROUND);
             WzorPaint.setPathEffect(new CornerPathEffect(15));
-            setupDrawing();
-        }
-
-        void setupDrawing()
-        {
-            drawPath = new Path();
-            drawPaint = new Paint();
-            drawCanvas = new Canvas();
 
             drawPaint.setStyle(Paint.Style.STROKE);
             drawPaint.setStrokeWidth(11f);
             drawPaint.setColor(Color.RED);
             drawPaint.setStrokeJoin(Paint.Join.ROUND);
             drawPaint.setStrokeCap(Paint.Cap.ROUND);
-
-
 
         }
 
@@ -142,11 +128,11 @@ public class Zygzak extends Activity {
             float eventY = event.getY();
 
 
+
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:   // Wykryto  nowy dotyk
-
+                    drawPath = new Path();
                     drawPath.moveTo(eventX, eventY);
-
                     break;
 
                 case MotionEvent.ACTION_MOVE:   // Przesunięcie palca
@@ -162,6 +148,7 @@ public class Zygzak extends Activity {
                     paths.add(drawPath);
                     Log.d("cos", "Liczba sciezek: " + paths.size());
 
+
                     /*
                     new Timer().schedule(new TimerTask() {
                         @Override
@@ -170,13 +157,8 @@ public class Zygzak extends Activity {
                         }
                     }, 2000);
                     */
-
-
-
+                    drawPath.reset();
                     break;
-
-
-
                     default:
                         return false;
                 }
@@ -198,7 +180,7 @@ public class Zygzak extends Activity {
         public Point(float x,float y) { this.x=x; this.y=y;}
     }
 
-    public class Wzory{
+    public class Tory{
 
             public void RysujWzor1() {
                 Wzor.moveTo(100, 100);
@@ -267,7 +249,7 @@ public class Zygzak extends Activity {
             };
 
 
-            public Wzory(){}
+            public Tory(){}
     }
 
 
