@@ -45,7 +45,8 @@ public class Zygzak extends Activity {
     List<Point> PatternPt = new ArrayList<Point>();
     List<Path> paths = new ArrayList<Path>();
     Tory Tor1 = new Tory();
-    int i=0;
+    int rand=0;
+    Random r = new Random();
 
     /*public double Error(){
         double Min=2000;
@@ -107,23 +108,24 @@ public class Zygzak extends Activity {
         @Override
         public void onDraw(Canvas canvas) {
             //Losowanie wzorow z bazy
-            //    rand = r.nextInt(2);
-            /*switch(rand){
+
+            switch(rand){
                 case 0:
-                   Wzor1.RysujWzor1();
-                   rozmiar = 5;
+                   Tor1.RysujWzor1();
                     break;
                 case 1:
-                    Wzor1.RysujWzor2();
-                    rozmiar = 25;
+                    Tor1.RysujWzor2();
                     break;
-            } */
+                case 2:
+                    Tor1.RysujWzor1();
+                    break;
+            }
 
-            Tor1.RysujWzor2(); //Wyrysowanie wzoru metoda z klasy Wzory.
+            //Tor1.RysujWzor2(); //Wyrysowanie wzoru metoda z klasy Wzory.
 
             canvas.drawRGB(80, 80, 80);
             canvas.drawPath(Wzor, WzorPaint);  //rysowanie wzoru
-            canvas.drawPath(drawPath,drawPaint);
+            canvas.drawPath(drawPath, drawPaint);
         }
 
         //@Override
@@ -150,7 +152,10 @@ public class Zygzak extends Activity {
                    // paths.add(drawPath);
                     Log.d("cos", "Liczba sciezek: " + paths.size());
                     drawPath.reset();
+                    Wzor.reset();
+                    rand+=1;
 
+                    Log.d("cos", "rand: " + rand);
                    break;
 
                     default:
