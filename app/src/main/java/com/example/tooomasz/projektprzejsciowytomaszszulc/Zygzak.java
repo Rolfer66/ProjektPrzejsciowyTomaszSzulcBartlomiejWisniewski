@@ -18,27 +18,36 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.Random;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Handler;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+
 
 
 public class Zygzak extends Activity {
 
-
-    //Random random = new Random();
-
     Path Wzor = new Path();
+    Path drawPath = new Path();
     List<Point> PatternPt = new ArrayList<Point>();
     List<Path> paths = new ArrayList<Path>();
-    Tory Wzor1 = new Tory();
+    Tory Tor1 = new Tory();
+    int i=0;
 
-    /*
-    public double Error(){
+    /*public double Error(){
         double Min=2000;
         double error=0;
         for(int i=0; i<PatternPt.size();i++){
@@ -51,8 +60,7 @@ public class Zygzak extends Activity {
                 Min=2000;
         }
         return error;
-    };
-    */
+    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,16 +73,13 @@ public class Zygzak extends Activity {
          */
     }
 
-    public class CanvasView extends View {
+    public class CanvasView extends View implements Serializable {
 
-        Path drawPath;
         Paint drawPaint, WzorPaint;
         Canvas drawCanvas;
 
-
         public CanvasView(Context context) {
             super(context);
-
             setupDrawing();
         }
 
@@ -83,7 +88,6 @@ public class Zygzak extends Activity {
             WzorPaint = new Paint();
             drawPaint = new Paint();
             drawCanvas = new Canvas();
-            drawPath = new Path();
 
             WzorPaint.setStyle(Paint.Style.STROKE);
             WzorPaint.setStrokeWidth(11f);
@@ -113,52 +117,42 @@ public class Zygzak extends Activity {
                     Wzor1.RysujWzor2();
                     rozmiar = 25;
                     break;
-            }
-            */
-            Wzor1.RysujWzor1(); //Wyrysowanie wzoru metoda z klasy Wzory.
+            } */
+
+            Tor1.RysujWzor2(); //Wyrysowanie wzoru metoda z klasy Wzory.
 
             canvas.drawRGB(80, 80, 80);
             canvas.drawPath(Wzor, WzorPaint);  //rysowanie wzoru
             canvas.drawPath(drawPath,drawPaint);
-
         }
+
         //@Override
         public boolean onTouchEvent(MotionEvent event) {
             float eventX = event.getX();
             float eventY = event.getY();
 
 
-
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:   // Wykryto  nowy dotyk
-                    drawPath = new Path();
+
                     drawPath.moveTo(eventX, eventY);
-                    break;
+                   return true;
 
                 case MotionEvent.ACTION_MOVE:   // Przesunięcie palca
 
                     drawPath.lineTo(eventX, eventY);
-                    drawCanvas.drawPath(drawPath, drawPaint);
-                    drawPath.moveTo(eventX, eventY);
-                    break;
+                    //drawCanvas.drawPath(drawPath, drawPaint);
+                    //drawPath.moveTo(eventX, eventY);
+                    return true;
 
                 case MotionEvent.ACTION_UP: // Palec zabrany z ekranu
-
-                    drawCanvas.drawPath(drawPath, drawPaint);
-                    paths.add(drawPath);
+                 //  drawCanvas.drawPath(drawPath, drawPaint);
+                   // paths.add(drawPath);
                     Log.d("cos", "Liczba sciezek: " + paths.size());
-
-
-                    /*
-                    new Timer().schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            drawPath.reset();
-                        }
-                    }, 2000);
-                    */
                     drawPath.reset();
-                    break;
+
+                   break;
+
                     default:
                         return false;
                 }
@@ -195,15 +189,11 @@ public class Zygzak extends Activity {
                 PatternPt.add(new Point(150, 600));
             }
 
-        public void RysujWzor2() {
+             public void RysujWzor2() {
             Wzor.moveTo(100, 100);
             PatternPt.add(new Point(100, 100));
-            Wzor.lineTo(150, 150);
-            PatternPt.add(new Point(150, 150));
             Wzor.lineTo(200, 200);
             PatternPt.add(new Point(200, 200));
-            Wzor.lineTo(250, 125);
-            PatternPt.add(new Point(250, 125));
             Wzor.lineTo(300, 150);
             PatternPt.add(new Point(300, 150));
             Wzor.lineTo(350, 225);
@@ -218,37 +208,23 @@ public class Zygzak extends Activity {
             PatternPt.add(new Point(240, 375));
             Wzor.lineTo(150, 350);
             PatternPt.add(new Point(150, 350));
-            Wzor.lineTo(125, 450);
-            PatternPt.add(new Point(125, 450));
             Wzor.lineTo(100, 550);
             PatternPt.add(new Point(100, 550));
-            Wzor.lineTo(175, 575);
-            PatternPt.add(new Point(175, 575));
             Wzor.lineTo(250, 600);
             PatternPt.add(new Point(250, 600));
             Wzor.lineTo(300, 650);
             PatternPt.add(new Point(300, 650));
-            Wzor.lineTo(350, 700);
-            PatternPt.add(new Point(350, 700));
             Wzor.lineTo(300, 750);
             PatternPt.add(new Point(300, 750));
-            Wzor.lineTo(250, 700);
-            PatternPt.add(new Point(250, 700));
             Wzor.lineTo(175, 750);
             PatternPt.add(new Point(175, 750));
             Wzor.lineTo(100, 700);
             PatternPt.add(new Point(100, 700));
-            Wzor.lineTo(275, 650);
-            PatternPt.add(new Point(275, 650));
             Wzor.lineTo(400, 600);
             PatternPt.add(new Point(400, 600));
-            Wzor.lineTo(375, 550);
-            PatternPt.add(new Point(375, 550));
             Wzor.lineTo(350, 500);
             PatternPt.add(new Point(350, 500));
             };
-
-
             public Tory(){}
     }
 
