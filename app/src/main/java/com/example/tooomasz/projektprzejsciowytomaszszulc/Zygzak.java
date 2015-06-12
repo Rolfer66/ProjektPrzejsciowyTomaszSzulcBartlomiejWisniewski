@@ -18,8 +18,13 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +51,7 @@ public class Zygzak extends Activity {
     Path Wzor = new Path();
     Path drawPath = new Path();
     List<Point> PatternPt = new ArrayList<Point>();
-    List<Path> paths = new ArrayList<Path>();
+    List<Point> PathPoints = new ArrayList<Point>();
     Tory Tor1 = new Tory();
     int rand=0;
     Random r = new Random();
@@ -114,7 +119,7 @@ public class Zygzak extends Activity {
 
             switch(rand){
                 case 0:
-                   Tor1.RysujWzor1();
+                    Tor1.RysujWzor1();
                     break;
                 case 1:
                     Tor1.RysujWzor2();
@@ -141,29 +146,77 @@ public class Zygzak extends Activity {
                 case MotionEvent.ACTION_DOWN:   // Wykryto  nowy dotyk
 
                     drawPath.moveTo(eventX, eventY);
-                   return true;
+                    PathPoints.add(new Point(eventX,eventY));
+                    return true;
 
                 case MotionEvent.ACTION_MOVE:   // Przesunięcie palca
 
                     drawPath.lineTo(eventX, eventY);
+                    PathPoints.add(new Point(eventX, eventY));
                     //drawCanvas.drawPath(drawPath, drawPaint);
                     //drawPath.moveTo(eventX, eventY);
                     return true;
 
                 case MotionEvent.ACTION_UP: // Palec zabrany z ekranu
-                 //  drawCanvas.drawPath(drawPath, drawPaint);
-                   // paths.add(drawPath);
-                    Log.d("cos", "Liczba sciezek: " + paths.size());
+                    //  drawCanvas.drawPath(drawPath, drawPaint);
                     drawPath.reset();
                     Wzor.reset();
                     rand+=1;
-
                     Log.d("cos", "rand: " + rand);
-                   break;
 
-                    default:
-                        return false;
-                }
+                    String content = "hello world";
+                    FileOutputStream outputStream;
+                    File file1;
+
+                    try {
+                        // file = File.createTempFile("MyCache", null, getCacheDir());
+                        file1 = new File(getFilesDir(), "myfile");
+                        outputStream = new FileOutputStream(file1);
+                        System.out.println(PathPoints.size());
+                        for(int i=0;i<PathPoints.size();i++)
+                        {
+
+                            float FBuffX = PathPoints.get(i).getX();
+                            float FBuffY = PathPoints.get(i).getY();
+                            String SBuff =FBuffX + ", " + FBuffY + "\r\n";
+                            System.out.println(SBuff);
+                            outputStream.write(SBuff.getBytes());
+
+
+                        }
+
+
+
+                        outputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    File file = null;
+                    BufferedReader input = null;
+                    try {
+                        file = new File(getFilesDir(), "myfile");
+
+                        input = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+                        String line;
+                        StringBuffer buffer = new StringBuffer();
+                        while ((line = input.readLine()) != null) {
+                            buffer.append(line);
+                        }
+
+                        Log.d("TAG", buffer.toString());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    break;
+
+
+                default:
+                    return false;
+            }
             invalidate();
             return true;
         }
@@ -184,20 +237,20 @@ public class Zygzak extends Activity {
 
     public class Tory{
 
-            public void RysujWzor1() {
-                Wzor.moveTo(100, 100);
-                PatternPt.add(new Point(100, 100));
-                Wzor.lineTo(350, 200);
-                PatternPt.add(new Point(350, 200));
-                Wzor.lineTo(150, 350);
-                PatternPt.add(new Point(150, 350));
-                Wzor.lineTo(350, 500);
-                PatternPt.add(new Point(350, 500));
-                Wzor.lineTo(150, 600);
-                PatternPt.add(new Point(150, 600));
-            }
+        public void RysujWzor1() {
+            Wzor.moveTo(100, 100);
+            PatternPt.add(new Point(100, 100));
+            Wzor.lineTo(350, 200);
+            PatternPt.add(new Point(350, 200));
+            Wzor.lineTo(150, 350);
+            PatternPt.add(new Point(150, 350));
+            Wzor.lineTo(350, 500);
+            PatternPt.add(new Point(350, 500));
+            Wzor.lineTo(150, 600);
+            PatternPt.add(new Point(150, 600));
+        }
 
-             public void RysujWzor2() {
+        public void RysujWzor2() {
             Wzor.moveTo(100, 100);
             PatternPt.add(new Point(100, 100));
             Wzor.lineTo(200, 200);
@@ -232,8 +285,8 @@ public class Zygzak extends Activity {
             PatternPt.add(new Point(400, 600));
             Wzor.lineTo(350, 500);
             PatternPt.add(new Point(350, 500));
-            };
-            public Tory(){}
+        };
+        public Tory(){}
     }
 
 
