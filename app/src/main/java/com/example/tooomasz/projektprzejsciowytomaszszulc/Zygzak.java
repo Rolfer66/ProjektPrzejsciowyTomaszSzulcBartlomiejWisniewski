@@ -12,6 +12,7 @@ import android.graphics.Point;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -186,32 +187,39 @@ public class Zygzak extends Activity {
                     drawPath.lineTo(eventX, eventY);
                     PathPoints.add(new Point(eventX, eventY));
                     drawPath.reset();
-                    Wzor.reset();
-                    Licznik++;
-                    int poprzedni=rand;
+                    Wzor.reset();                       //usuniecie z pamieci poprzedniego
+
+
+                    Licznik++;   // kolejny pokonany wzor
+                    int poprzedni=rand;  //przypisanie obecnie wykonanego wzoru
                     do{
-                        rand = r.nextInt(9);
+                        rand = r.nextInt(10);                   //losowanie nowego wzoru ze sprawdzeniem czy nie wyswietli obecnego
                     }while(rand==poprzedni);
 
-                    if(Licznik>10) {
+                    if(Licznik>10) {                                //zliczanie ilosci wykonanych wzorow i komunikat o koncu
                         rand = 50;
                         Context contextT = getApplicationContext();
                         String message = "DZIĘKI ZA WSPÓLNĄ ZABAWĘ :)";
                         Toast toast = Toast.makeText(contextT,message,Toast.LENGTH_LONG);
                         toast.show();
                     }
-                    Log.d("cos", "rand: " + rand);
-                    FileOutputStream outputStream;
+
+
+                    Log.d("cos", "Wykonano sciezke nr: " + rand);
+                    String sciezka="sciezka do plik  "+Environment.getExternalStorageDirectory().getAbsolutePath()+"/dir1/dir2";
+                    System.out.println(sciezka);
                     File file1;
-                    String FileName = "Sciezka";
+                    FileOutputStream outputStream;
+                    String FileName = "sciezka";
 
                     try {
+
                         file1 = new File(getFilesDir(), FileName);
                         outputStream = new FileOutputStream(file1);
                         System.out.println(PathPoints.size());
+                        System.out.println("Zapis rozpoczety");
                         for(int i=0;i<PathPoints.size();i++)
                         {
-
                             float FBuffX = PathPoints.get(i).getX();
                             float FBuffY = PathPoints.get(i).getY();
                             String SBuff =FBuffX + ", " + FBuffY + "\r\n";
@@ -219,17 +227,21 @@ public class Zygzak extends Activity {
                             outputStream.write(SBuff.getBytes());
 
                         }
+                        System.out.println("Zapis zakonczony");
                         outputStream.close();
+                        System.out.println("Plik zamkniety");
                     }catch (IOException e) {
+                        System.out.println("nie dalo rady Panie");
                         e.printStackTrace();
                     }
 
+                    PathPoints.clear();
 
                     File file = null;
                     BufferedReader input = null;
                     try {
                         file = new File(getFilesDir(), "myfile");
-
+                        System.out.println("Odczyt rozpoczety");
                         input = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
                         String line;
                         StringBuffer buffer = new StringBuffer();
@@ -237,6 +249,9 @@ public class Zygzak extends Activity {
                             buffer.append(line);
                         }
                         Log.d("TAG", buffer.toString());
+                        input.close();
+                        System.out.println("odczyt zakonczony");
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
