@@ -129,7 +129,28 @@ public class Zygzak extends Activity {
                     Tor1.RysujWzor2();
                     break;
                 case 2:
-                    Tor1.RysujWzor1();
+                    Tor1.RysujWzor3();
+                    break;
+                case 3:
+                    Tor1.RysujWzor4();
+                    break;
+                case 4:
+                    Tor1.RysujWzor5();
+                    break;
+                case 5:
+                    Tor1.RysujWzor6();
+                    break;
+                case 6:
+                    Tor1.RysujWzor7();
+                    break;
+                case 7:
+                    Tor1.RysujWzor8();
+                    break;
+                case 8:
+                    Tor1.RysujWzor9();
+                    break;
+                case 9:
+                    Tor1.RysujWzor10();
                     break;
             }
 
@@ -162,7 +183,9 @@ public class Zygzak extends Activity {
                     return true;
 
                 case MotionEvent.ACTION_UP: // Palec zabrany z ekranu
-                    //  drawCanvas.drawPath(drawPath, drawPaint);
+                    drawPath.lineTo(eventX, eventY);
+                    PathPoints.add(new Point(eventX, eventY));
+
                     drawPath.reset();
                     Wzor.reset();
                     rand+=1;
@@ -235,64 +258,143 @@ public class Zygzak extends Activity {
     public class Tory{
 
         public void RysujWzor1() {
-            Wzor.moveTo(100, 100);
-            PatternPt.add(new Point(100, 100));
-            Wzor.lineTo(350, 200);
-            PatternPt.add(new Point(350, 200));
-            Wzor.lineTo(150, 350);
-            PatternPt.add(new Point(150, 350));
-            Wzor.lineTo(350, 500);
-            PatternPt.add(new Point(350, 500));
-            Wzor.lineTo(150, 600);
-            PatternPt.add(new Point(150, 600));
+            Wzor.moveTo(100, 100); PatternPt.add(new Point(100, 100));
+            Wzor.lineTo(350, 200); PatternPt.add(new Point(350, 200));
+            Wzor.lineTo(150, 350); PatternPt.add(new Point(150, 350));
+            Wzor.lineTo(350, 500); PatternPt.add(new Point(350, 500));
+            Wzor.lineTo(150, 600); PatternPt.add(new Point(150, 600));
         }
 
         public void RysujWzor2() {
-            Wzor.moveTo(100, 100);
-            PatternPt.add(new Point(100, 100));
-            Wzor.lineTo(200, 200);
-            PatternPt.add(new Point(200, 200));
-            Wzor.lineTo(300, 150);
-            PatternPt.add(new Point(300, 150));
-            Wzor.lineTo(350, 225);
-            PatternPt.add(new Point(350, 225));
-            Wzor.lineTo(400, 300);
-            PatternPt.add(new Point(400, 300));
-            Wzor.lineTo(350, 350);
-            PatternPt.add(new Point(350, 350));
-            Wzor.lineTo(300, 400);
-            PatternPt.add(new Point(300, 400));
-            Wzor.lineTo(240, 375);
-            PatternPt.add(new Point(240, 375));
-            Wzor.lineTo(150, 350);
-            PatternPt.add(new Point(150, 350));
-            Wzor.lineTo(100, 550);
-            PatternPt.add(new Point(100, 550));
-            Wzor.lineTo(250, 600);
-            PatternPt.add(new Point(250, 600));
-            Wzor.lineTo(300, 650);
-            PatternPt.add(new Point(300, 650));
-            Wzor.lineTo(300, 750);
-            PatternPt.add(new Point(300, 750));
-            Wzor.lineTo(175, 750);
-            PatternPt.add(new Point(175, 750));
-            Wzor.lineTo(100, 700);
-            PatternPt.add(new Point(100, 700));
-            Wzor.lineTo(400, 600);
-            PatternPt.add(new Point(400, 600));
-            Wzor.lineTo(350, 500);
-            PatternPt.add(new Point(350, 500));
-        };
+            Wzor.moveTo(100, 100); PatternPt.add(new Point(100, 100));
+            Wzor.lineTo(200, 200); PatternPt.add(new Point(200, 200));
+            Wzor.lineTo(300, 150); PatternPt.add(new Point(300, 150));
+            Wzor.lineTo(350, 225); PatternPt.add(new Point(350, 225));
+            Wzor.lineTo(400, 300); PatternPt.add(new Point(400, 300));
+            Wzor.lineTo(350, 350); PatternPt.add(new Point(350, 350));
+            Wzor.lineTo(300, 400); PatternPt.add(new Point(300, 400));
+            Wzor.lineTo(240, 375); PatternPt.add(new Point(240, 375));
+            Wzor.lineTo(150, 350); PatternPt.add(new Point(150, 350));
+            Wzor.lineTo(100, 550); PatternPt.add(new Point(100, 550));
+            Wzor.lineTo(250, 600); PatternPt.add(new Point(250, 600));
+        }
+
+        public void RysujWzor3(){
+            Wzor.moveTo(250, 100); PatternPt.add(new Point(250, 100));
+            Wzor.lineTo(100, 200); PatternPt.add(new Point(100, 200));
+            Wzor.lineTo(50, 400);  PatternPt.add(new Point(50, 400));
+            Wzor.lineTo(100, 600); PatternPt.add(new Point(100, 600));
+            Wzor.lineTo(200, 650); PatternPt.add(new Point(200, 650));
+            Wzor.lineTo(300, 500); PatternPt.add(new Point(300, 500));
+            Wzor.lineTo(200, 400); PatternPt.add(new Point(200, 400));
+        }
+
+        public void RysujWzor4(){
+            Wzor.moveTo(50, 100);  PatternPt.add(new Point(50, 100));
+            Wzor.lineTo(100, 250); PatternPt.add(new Point(100, 250));
+            Wzor.lineTo(150, 200); PatternPt.add(new Point(150, 200));
+            Wzor.lineTo(200, 350); PatternPt.add(new Point(200, 350));
+            Wzor.lineTo(250, 300); PatternPt.add(new Point(250, 300));
+            Wzor.lineTo(300, 450); PatternPt.add(new Point(300, 450));
+        }
+
+        public void RysujWzor5(){
+            Wzor.moveTo(175, 600); PatternPt.add(new Point(175, 600));
+            Wzor.lineTo(175, 550); PatternPt.add(new Point(175, 650));
+            Wzor.lineTo(25, 550);  PatternPt.add(new Point(25, 550));
+            Wzor.lineTo(125, 450); PatternPt.add(new Point(125, 450));
+            Wzor.lineTo(75, 450);  PatternPt.add(new Point(75, 450));
+            Wzor.lineTo(175, 350); PatternPt.add(new Point(175, 350));
+            Wzor.lineTo(125, 350); PatternPt.add(new Point(125, 350));
+            Wzor.lineTo(225, 250); PatternPt.add(new Point(225, 250));
+            Wzor.lineTo(325, 350); PatternPt.add(new Point(325, 350));
+            Wzor.lineTo(275, 350); PatternPt.add(new Point(275, 350));
+            Wzor.lineTo(375, 450); PatternPt.add(new Point(375, 450));
+            Wzor.lineTo(325, 450); PatternPt.add(new Point(325, 450));
+            Wzor.lineTo(425, 550); PatternPt.add(new Point(425, 550));
+            Wzor.lineTo(275, 550); PatternPt.add(new Point(275, 550));
+            Wzor.lineTo(275, 600); PatternPt.add(new Point(275, 620));
+        }
+        public void RysujWzor6() {
+            Wzor.moveTo(150, 500); PatternPt.add(new Point(150, 500));
+            Wzor.lineTo(350, 500); PatternPt.add(new Point(350, 500));
+            Wzor.lineTo(150, 350); PatternPt.add(new Point(150, 350));
+            Wzor.lineTo(350, 350); PatternPt.add(new Point(350, 350));
+            Wzor.lineTo(250, 250); PatternPt.add(new Point(250, 250));
+            Wzor.lineTo(150, 350); PatternPt.add(new Point(150, 350));
+            Wzor.lineTo(150, 500); PatternPt.add(new Point(150, 500));
+            Wzor.lineTo(350, 350); PatternPt.add(new Point(350, 350));
+            Wzor.lineTo(350, 500); PatternPt.add(new Point(350, 500));
+
+}
+        public void RysujWzor7(){
+            Wzor.moveTo(130, 500); PatternPt.add(new Point(130, 500));
+            Wzor.lineTo(180, 350); PatternPt.add(new Point(180, 350));
+            Wzor.lineTo(30, 300);  PatternPt.add(new Point(30, 300));
+            Wzor.lineTo(180, 300); PatternPt.add(new Point(180, 300));
+            Wzor.lineTo(230, 150); PatternPt.add(new Point(230, 150));
+            Wzor.lineTo(280, 300); PatternPt.add(new Point(280, 300));
+            Wzor.lineTo(430, 300); PatternPt.add(new Point(430, 300));
+            Wzor.lineTo(280, 350); PatternPt.add(new Point(280, 350));
+            Wzor.lineTo(330, 500); PatternPt.add(new Point(330, 500));
+            Wzor.lineTo(230, 400); PatternPt.add(new Point(230, 400));
+            Wzor.lineTo(130, 500); PatternPt.add(new Point(130, 500));
+        }
+
+        public void RysujWzor8(){
+            Wzor.moveTo(100, 500); PatternPt.add(new Point(100, 500));
+            Wzor.lineTo(50, 300);  PatternPt.add(new Point(50, 300));
+            Wzor.lineTo(150, 450); PatternPt.add(new Point(150, 450));
+            Wzor.lineTo(200, 250); PatternPt.add(new Point(200, 250));
+            Wzor.lineTo(250, 450); PatternPt.add(new Point(250, 450));
+            Wzor.lineTo(300, 250); PatternPt.add(new Point(300, 250));
+            Wzor.lineTo(350, 450); PatternPt.add(new Point(350, 450));
+            Wzor.lineTo(450, 300); PatternPt.add(new Point(450, 300));
+            Wzor.lineTo(400, 500); PatternPt.add(new Point(400, 500));
+            Wzor.lineTo(100, 500); PatternPt.add(new Point(100, 500));
+        }
+        public void RysujWzor9(){
+            Wzor.moveTo(100, 700); PatternPt.add(new Point(100, 700));
+            Wzor.lineTo(100, 100); PatternPt.add(new Point(100, 100));
+            Wzor.lineTo(450, 100); PatternPt.add(new Point(450, 100));
+            Wzor.lineTo(200, 250); PatternPt.add(new Point(200, 250));
+            Wzor.lineTo(450, 400); PatternPt.add(new Point(450, 400));
+            Wzor.lineTo(100, 400); PatternPt.add(new Point(100, 400));
+        }
+        public void RysujWzor10(){
+            Wzor.moveTo(250, 700); PatternPt.add(new Point(250, 700));
+            Wzor.lineTo(250, 450); PatternPt.add(new Point(250, 450));
+            Wzor.lineTo(150, 400);  PatternPt.add(new Point(150, 400));
+            Wzor.lineTo(50, 300); PatternPt.add(new Point(50, 300));
+            Wzor.lineTo(180, 350);  PatternPt.add(new Point(180, 350));
+            Wzor.lineTo(250, 450); PatternPt.add(new Point(250, 450));
+            Wzor.lineTo(250, 250); PatternPt.add(new Point(250, 250));
+            Wzor.lineTo(200, 200); PatternPt.add(new Point(200, 200));
+            Wzor.lineTo(150, 100); PatternPt.add(new Point(150, 100));
+            Wzor.lineTo(200, 150); PatternPt.add(new Point(200, 150));
+            Wzor.lineTo(225, 100); PatternPt.add(new Point(225, 100));
+            Wzor.lineTo(250, 150); PatternPt.add(new Point(250, 150));
+            Wzor.lineTo(275, 100); PatternPt.add(new Point(275, 100));
+            Wzor.lineTo(300, 150); PatternPt.add(new Point(300, 150));
+            Wzor.lineTo(350, 100); PatternPt.add(new Point(350, 100));
+            Wzor.lineTo(300, 200); PatternPt.add(new Point(300, 200));
+            Wzor.lineTo(250, 250); PatternPt.add(new Point(250, 250));
+            Wzor.lineTo(250, 450); PatternPt.add(new Point(250, 450));
+            Wzor.lineTo(350, 400); PatternPt.add(new Point(350, 400));
+            Wzor.lineTo(450, 300); PatternPt.add(new Point(450, 300));
+            Wzor.lineTo(330, 350); PatternPt.add(new Point(330, 350));
+            Wzor.lineTo(250, 450); PatternPt.add(new Point(250, 450));
+        }
         public Tory(){}
     }
 
-    public class Watek extends AsyncTask<Void, Void, Void> {
+    /*public class Watek extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params){
 
         }
 
-    }
+    }*/
 
 
 
