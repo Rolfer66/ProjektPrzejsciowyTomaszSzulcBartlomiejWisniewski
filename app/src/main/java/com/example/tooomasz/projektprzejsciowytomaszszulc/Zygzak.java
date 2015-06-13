@@ -185,10 +185,21 @@ public class Zygzak extends Activity {
                 case MotionEvent.ACTION_UP: // Palec zabrany z ekranu
                     drawPath.lineTo(eventX, eventY);
                     PathPoints.add(new Point(eventX, eventY));
-
                     drawPath.reset();
                     Wzor.reset();
-                    rand+=1;
+                    Licznik++;
+                    int poprzedni=rand;
+                    do{
+                        rand = r.nextInt(9);
+                    }while(rand==poprzedni);
+
+                    if(Licznik>10) {
+                        rand = 50;
+                        Context contextT = getApplicationContext();
+                        String message = "DZIĘKI ZA WSPÓLNĄ ZABAWĘ :)";
+                        Toast toast = Toast.makeText(contextT,message,Toast.LENGTH_LONG);
+                        toast.show();
+                    }
                     Log.d("cos", "rand: " + rand);
                     FileOutputStream outputStream;
                     File file1;
@@ -364,9 +375,9 @@ public class Zygzak extends Activity {
         public void RysujWzor10(){
             Wzor.moveTo(250, 700); PatternPt.add(new Point(250, 700));
             Wzor.lineTo(250, 450); PatternPt.add(new Point(250, 450));
-            Wzor.lineTo(150, 400);  PatternPt.add(new Point(150, 400));
-            Wzor.lineTo(50, 300); PatternPt.add(new Point(50, 300));
-            Wzor.lineTo(180, 350);  PatternPt.add(new Point(180, 350));
+            Wzor.lineTo(150, 400); PatternPt.add(new Point(150, 400));
+            Wzor.lineTo(50, 300);  PatternPt.add(new Point(50, 300));
+            Wzor.lineTo(180, 350); PatternPt.add(new Point(180, 350));
             Wzor.lineTo(250, 450); PatternPt.add(new Point(250, 450));
             Wzor.lineTo(250, 250); PatternPt.add(new Point(250, 250));
             Wzor.lineTo(200, 200); PatternPt.add(new Point(200, 200));
