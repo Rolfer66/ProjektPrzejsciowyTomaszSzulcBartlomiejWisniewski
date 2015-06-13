@@ -10,6 +10,7 @@ import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.Point;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,6 +19,8 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
+
+import org.apache.http.HttpHost;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -54,6 +57,7 @@ public class Zygzak extends Activity {
     List<Point> PathPoints = new ArrayList<Point>();
     Tory Tor1 = new Tory();
     int rand=0;
+    int Licznik;    // zmienna do liczenia wystąpień rysowanych wzorów
     Random r = new Random();
 
     /*public double Error(){
@@ -163,14 +167,12 @@ public class Zygzak extends Activity {
                     Wzor.reset();
                     rand+=1;
                     Log.d("cos", "rand: " + rand);
-
-                    String content = "hello world";
                     FileOutputStream outputStream;
                     File file1;
+                    String FileName = "Sciezka";
 
                     try {
-                        // file = File.createTempFile("MyCache", null, getCacheDir());
-                        file1 = new File(getFilesDir(), "myfile");
+                        file1 = new File(getFilesDir(), FileName);
                         outputStream = new FileOutputStream(file1);
                         System.out.println(PathPoints.size());
                         for(int i=0;i<PathPoints.size();i++)
@@ -182,13 +184,9 @@ public class Zygzak extends Activity {
                             System.out.println(SBuff);
                             outputStream.write(SBuff.getBytes());
 
-
                         }
-
-
-
                         outputStream.close();
-                    } catch (IOException e) {
+                    }catch (IOException e) {
                         e.printStackTrace();
                     }
 
@@ -204,7 +202,6 @@ public class Zygzak extends Activity {
                         while ((line = input.readLine()) != null) {
                             buffer.append(line);
                         }
-
                         Log.d("TAG", buffer.toString());
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -287,6 +284,14 @@ public class Zygzak extends Activity {
             PatternPt.add(new Point(350, 500));
         };
         public Tory(){}
+    }
+
+    public class Watek extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params){
+
+        }
+
     }
 
 
