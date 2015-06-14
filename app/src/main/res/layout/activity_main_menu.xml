@@ -12,9 +12,41 @@
         android:layout_height="wrap_content"
         android:text="@string/Zagraj"
         android:id="@+id/buttonZagraj"
-        android:layout_alignParentTop="true"
+        android:onClick="buttonZagrajClicked"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="104dp"
-        android:onClick="buttonZagrajClicked"/>
+        android:layout_marginBottom="37dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Twoim zadaniem jest przsunięcie palcem po ukazanym wzorze. "
+        android:id="@+id/textView"
+        android:layout_marginBottom="80dp"
+        android:layout_above="@+id/buttonZagraj"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Podaj imie"
+        android:id="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/buttonZagraj"
+        android:layout_alignEnd="@+id/buttonZagraj" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:id="@+id/editText2"
+        android:layout_marginTop="47dp"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

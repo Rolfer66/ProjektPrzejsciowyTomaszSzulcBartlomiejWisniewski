@@ -9,7 +9,12 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.Point;
-
+import android.os.Bundle;
+import android.app.Activity;
+import android.text.Editable;
+import android.view.Menu;
+import android.view.View;
+import android.widget.*;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,6 +24,8 @@ import android.view.MenuItem;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.HttpHost;
@@ -61,6 +68,8 @@ public class Zygzak extends Activity {
     int Licznik;    // zmienna do liczenia wystąpień rysowanych wzorów
     Random r = new Random();
 
+    String user;
+
     /*public double Error(){
         double Min=2000;
         double error=0;
@@ -80,11 +89,6 @@ public class Zygzak extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(new CanvasView(this));
-        /* ustawienie pelnego ekranu
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-        WindowManager.LayoutParams.FLAG_FULLSCREEN);
-         */
     }
 
     public class CanvasView extends View implements Serializable {
@@ -190,7 +194,11 @@ public class Zygzak extends Activity {
                     Wzor.reset();                       //usuniecie z pamieci poprzedniego
 
 
+                    //EditText Use = (EditText) findViewById(R.id.ImieText);
+                    //String uzytkownik = Use.getText().toString();
                     Licznik++;   // kolejny pokonany wzor
+
+
                     int poprzedni=rand;  //przypisanie obecnie wykonanego wzoru
                     do{
                         rand = r.nextInt(10);                   //losowanie nowego wzoru ze sprawdzeniem czy nie wyswietli obecnego
@@ -200,24 +208,29 @@ public class Zygzak extends Activity {
                         rand = 50;
                         Context contextT = getApplicationContext();
                         String message = "DZIĘKI ZA WSPÓLNĄ ZABAWĘ :)";
-                        Toast toast = Toast.makeText(contextT,message,Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(contextT, message,Toast.LENGTH_LONG);
                         toast.show();
                     }
 
 
                     Log.d("cos", "Wykonano sciezke nr: " + rand);
-                    String sciezka="sciezka do plik  "+Environment.getExternalStorageDirectory().getAbsolutePath()+"/dir1/dir2";
-                    System.out.println(sciezka);
+                    String sciezka="sciezka do plik  "+Environment.getExternalStorageDirectory().getAbsolutePath();
+
                     File file1;
                     FileOutputStream outputStream;
-                    String FileName = "sciezka";
+                    String FileName =Licznik+".txt";
+
 
                     try {
-
-                        file1 = new File(getFilesDir(), FileName);
+                        File dir=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Baza danych/");
+                        dir.mkdirs();
+                        file1 = new File(dir, FileName);
+                        System.out.println("Zapisano w: "+dir.toString());
                         outputStream = new FileOutputStream(file1);
                         System.out.println(PathPoints.size());
                         System.out.println("Zapis rozpoczety");
+
+
                         for(int i=0;i<PathPoints.size();i++)
                         {
                             float FBuffX = PathPoints.get(i).getX();
@@ -237,10 +250,10 @@ public class Zygzak extends Activity {
 
                     PathPoints.clear();
 
-                    File file = null;
+                 /*   File file = null;
                     BufferedReader input = null;
                     try {
-                        file = new File(getFilesDir(), "myfile");
+                        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/dir1/dir2", FileName);
                         System.out.println("Odczyt rozpoczety");
                         input = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
                         String line;
@@ -255,11 +268,8 @@ public class Zygzak extends Activity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-
+*/
                     break;
-
-
                 default:
                     return false;
             }
@@ -413,14 +423,6 @@ public class Zygzak extends Activity {
         }
         public Tory(){}
     }
-
-    /*public class Watek extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params){
-
-        }
-
-    }*/
 
 
 
