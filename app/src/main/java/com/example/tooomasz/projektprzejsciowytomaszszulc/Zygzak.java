@@ -92,7 +92,6 @@ public class Zygzak extends ActionBarActivity {
         setContentView(new CanvasView(this));
 
         Intent t = getIntent();
-
         user = t.getStringExtra("ImieUzytkownika");                       //pobranie nazwy uzytkownika z edittext
     }
 
@@ -198,36 +197,9 @@ public class Zygzak extends ActionBarActivity {
                     drawPath.reset();
                     Wzor.reset();                       //usuniecie z pamieci poprzedniego
 
-                    System.out.println("1 x rand: "+Licznik);
-                    //EditText Use = (EditText) findViewById(R.id.ImieText);
-                    //String uzytkownik = Use.getText().toString();
-                    Licznik++;   // kolejny pokonany wzor
-
-
-                    int poprzedni=rand;  //przypisanie obecnie wykonanego wzoru
-                    do{
-                        rand = r.nextInt(10);                   //losowanie nowego wzoru ze sprawdzeniem czy nie wyswietli obecnego
-                    }while(rand==poprzedni);
-
-                    System.out.println("2 x rand: "+Licznik);
-
-                    if(Licznik>5) {                                //zliczanie ilosci wykonanych wzorow i komunikat o koncu
-                        rand = 50;
-                        Context contextT = getApplicationContext();
-                        String message = "DZIĘKI ZA WSPÓLNĄ ZABAWĘ :)";
-                        Toast toast = Toast.makeText(contextT, message,Toast.LENGTH_LONG);
-                        toast.show();
-                        Licznik=1;
-                    }
-
-                    System.out.println("3 x rand: "+Licznik);
-                    Log.d("cos", "Wykonano sciezke nr: " + rand);
-                    String sciezka="sciezka do plik  "+Environment.getExternalStorageDirectory().getAbsolutePath();
-
                     File file1;
                     FileOutputStream outputStream;
                     String FileName ="User: "+user+", Podejście: "+Licznik+" dla ścieżki nr: "+rand+".txt";
-
 
                         try {
                             File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Baza danych/");
@@ -242,7 +214,11 @@ public class Zygzak extends ActionBarActivity {
                             for (int i = 0; i < PathPoints.size(); i++) {
                                 float FBuffX = PathPoints.get(i).getX();
                                 float FBuffY = PathPoints.get(i).getY();
-                                String SBuff = FBuffX + ", " + FBuffY + "\r\n";
+
+                                FBuffX= Math.round(FBuffX);
+                                FBuffY= Math.round(FBuffY);
+
+                                String SBuff = "Punkt nr: "+i+"  X: "+ FBuffX + ", Y: " + FBuffY + "\r\n";
                                 System.out.println(SBuff);
                                 outputStream.write(SBuff.getBytes());
 
@@ -256,26 +232,23 @@ public class Zygzak extends ActionBarActivity {
                         }
 
                     PathPoints.clear();
-                    System.out.println("4 x rand: " + rand);
-                 /*   File file = null;
-                    BufferedReader input = null;
-                    try {
-                        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/dir1/dir2", FileName);
-                        System.out.println("Odczyt rozpoczety");
-                        input = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-                        String line;
-                        StringBuffer buffer = new StringBuffer();
-                        while ((line = input.readLine()) != null) {
-                            buffer.append(line);
-                        }
-                        Log.d("TAG", buffer.toString());
-                        input.close();
-                        System.out.println("odczyt zakonczony");
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
+
+                    int poprzedni=rand;  //przypisanie obecnie wykonanego wzoru
+                    do{
+                        rand = r.nextInt(10);                   //losowanie nowego wzoru ze sprawdzeniem czy nie wyswietli obecnego
+                    }while(rand==poprzedni);
+
+                    if(Licznik==5) {                                //zliczanie ilosci wykonanych wzorow i komunikat o koncu
+                        rand = 50;
+                        Context contextT = getApplicationContext();
+                        String message = "DZIĘKI ZA WSPÓLNĄ ZABAWĘ :)";
+                        Toast toast = Toast.makeText(contextT, message,Toast.LENGTH_LONG);
+                        toast.show();
+                        Licznik=0;
                     }
-*/
+                    Licznik++;
+
                     break;
                 default:
                     return false;
