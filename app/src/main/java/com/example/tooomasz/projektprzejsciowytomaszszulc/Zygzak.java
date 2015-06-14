@@ -11,6 +11,7 @@ import android.graphics.PathMeasure;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.view.Menu;
 import android.view.View;
@@ -52,12 +53,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import android.widget.EditText;
+import android.view.MenuItem;
 
 
 
-
-
-public class Zygzak extends Activity {
+public class Zygzak extends ActionBarActivity {
 
     Path Wzor = new Path();
     Path drawPath = new Path();
@@ -65,7 +66,7 @@ public class Zygzak extends Activity {
     List<Point> PathPoints = new ArrayList<Point>();
     Tory Tor1 = new Tory();
     int rand=0;
-    int Licznik;    // zmienna do liczenia wystąpień rysowanych wzorów
+    int Licznik=1;    // zmienna do liczenia wystąpień rysowanych wzorów
     Random r = new Random();
 
     String user;
@@ -89,6 +90,10 @@ public class Zygzak extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(new CanvasView(this));
+
+        Intent t = getIntent();
+
+        user = t.getStringExtra("ImieUzytkownika");                       //pobranie nazwy uzytkownika z edittext
     }
 
     public class CanvasView extends View implements Serializable {
@@ -193,7 +198,7 @@ public class Zygzak extends Activity {
                     drawPath.reset();
                     Wzor.reset();                       //usuniecie z pamieci poprzedniego
 
-
+                    System.out.println("1 x rand: "+Licznik);
                     //EditText Use = (EditText) findViewById(R.id.ImieText);
                     //String uzytkownik = Use.getText().toString();
                     Licznik++;   // kolejny pokonany wzor
@@ -204,52 +209,54 @@ public class Zygzak extends Activity {
                         rand = r.nextInt(10);                   //losowanie nowego wzoru ze sprawdzeniem czy nie wyswietli obecnego
                     }while(rand==poprzedni);
 
-                    if(Licznik>10) {                                //zliczanie ilosci wykonanych wzorow i komunikat o koncu
+                    System.out.println("2 x rand: "+Licznik);
+
+                    if(Licznik>5) {                                //zliczanie ilosci wykonanych wzorow i komunikat o koncu
                         rand = 50;
                         Context contextT = getApplicationContext();
                         String message = "DZIĘKI ZA WSPÓLNĄ ZABAWĘ :)";
                         Toast toast = Toast.makeText(contextT, message,Toast.LENGTH_LONG);
                         toast.show();
+                        Licznik=1;
                     }
 
-
+                    System.out.println("3 x rand: "+Licznik);
                     Log.d("cos", "Wykonano sciezke nr: " + rand);
                     String sciezka="sciezka do plik  "+Environment.getExternalStorageDirectory().getAbsolutePath();
 
                     File file1;
                     FileOutputStream outputStream;
-                    String FileName =Licznik+".txt";
+                    String FileName ="User: "+user+", Podejście: "+Licznik+" dla ścieżki nr: "+rand+".txt";
 
 
-                    try {
-                        File dir=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Baza danych/");
-                        dir.mkdirs();
-                        file1 = new File(dir, FileName);
-                        System.out.println("Zapisano w: "+dir.toString());
-                        outputStream = new FileOutputStream(file1);
-                        System.out.println(PathPoints.size());
-                        System.out.println("Zapis rozpoczety");
+                        try {
+                            File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Baza danych/");
+                            dir.mkdirs();
+                            file1 = new File(dir, FileName);
+                            System.out.println("Zapisano w: " + dir.toString());
+                            outputStream = new FileOutputStream(file1);
+                            System.out.println(PathPoints.size());
+                            System.out.println("Zapis rozpoczety");
 
 
-                        for(int i=0;i<PathPoints.size();i++)
-                        {
-                            float FBuffX = PathPoints.get(i).getX();
-                            float FBuffY = PathPoints.get(i).getY();
-                            String SBuff =FBuffX + ", " + FBuffY + "\r\n";
-                            System.out.println(SBuff);
-                            outputStream.write(SBuff.getBytes());
+                            for (int i = 0; i < PathPoints.size(); i++) {
+                                float FBuffX = PathPoints.get(i).getX();
+                                float FBuffY = PathPoints.get(i).getY();
+                                String SBuff = FBuffX + ", " + FBuffY + "\r\n";
+                                System.out.println(SBuff);
+                                outputStream.write(SBuff.getBytes());
 
+                            }
+                            System.out.println("Zapis zakonczony");
+                            outputStream.close();
+                            System.out.println("Plik zamkniety");
+                        } catch (IOException e) {
+                            System.out.println("nie dalo rady Panie");
+                            e.printStackTrace();
                         }
-                        System.out.println("Zapis zakonczony");
-                        outputStream.close();
-                        System.out.println("Plik zamkniety");
-                    }catch (IOException e) {
-                        System.out.println("nie dalo rady Panie");
-                        e.printStackTrace();
-                    }
 
                     PathPoints.clear();
-
+                    System.out.println("4 x rand: " + rand);
                  /*   File file = null;
                     BufferedReader input = null;
                     try {

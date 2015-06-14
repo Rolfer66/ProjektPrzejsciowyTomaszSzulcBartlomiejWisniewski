@@ -11,7 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-
+import android.util.Log;
+import android.widget.EditText;
+import android.view.MenuItem;
 
 public class MainMenu extends ActionBarActivity {
 
@@ -26,6 +28,7 @@ public class MainMenu extends ActionBarActivity {
 
 
         Button P1;
+        final EditText WprowadzoneImie = (EditText) findViewById(R.id.ImieText);
 
 
         P1= (Button)findViewById(R.id.buttonZagraj);
@@ -36,6 +39,7 @@ public class MainMenu extends ActionBarActivity {
             public void onClick(View v){
                 context1 = getApplicationContext();
                 Intent intent = new Intent(context1,Zygzak.class);
+                intent.putExtra("ImieUzytkownika", WprowadzoneImie.getText().toString());
                 startActivity(intent);
             }
         };
