@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.View;
 import android.widget.*;
@@ -55,6 +56,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import android.widget.EditText;
 import android.view.MenuItem;
+import android.view.View.OnTouchListener;
 
 
 
@@ -68,6 +70,7 @@ public class Zygzak extends ActionBarActivity {
     int rand=0;
     int Licznik=1;    // zmienna do liczenia wystąpień rysowanych wzorów
     Random r = new Random();
+    int flaga=0;
 
     String user;
 
@@ -91,8 +94,27 @@ public class Zygzak extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(new CanvasView(this));
 
+
         Intent t = getIntent();
-        user = t.getStringExtra("ImieUzytkownika");                       //pobranie nazwy uzytkownika z edittext
+        user = t.getStringExtra("ImieUzytkownika");     //pobranie nazwy uzytkownika z edittext
+      /*  View layout =  findViewById(R.id.a);
+
+
+        OnTouchListener a = new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(flaga==1 && event.getAction()== MotionEvent.ACTION_UP){
+                    Intent intent = new Intent(getApplicationContext(),Koniec.class);
+                    startActivity(intent);
+                    flaga=0;
+                }
+
+            return true;
+            }
+
+        };
+        layout.setOnTouchListener(a);
+*/
     }
 
     public class CanvasView extends View implements Serializable {
@@ -246,6 +268,7 @@ public class Zygzak extends ActionBarActivity {
                         Toast toast = Toast.makeText(contextT, message,Toast.LENGTH_LONG);
                         toast.show();
                         Licznik=0;
+                        flaga=1;
                     }
                     Licznik++;
 

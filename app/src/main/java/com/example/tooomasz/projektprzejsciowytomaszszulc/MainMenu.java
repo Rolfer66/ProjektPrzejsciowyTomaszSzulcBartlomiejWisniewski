@@ -6,20 +6,25 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+
 import android.widget.Button;
 import android.util.Log;
 import android.widget.EditText;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class MainMenu extends ActionBarActivity {
 
 
 
-    Context context1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,22 +36,31 @@ public class MainMenu extends ActionBarActivity {
         final EditText WprowadzoneImie = (EditText) findViewById(R.id.ImieText);
 
 
-        P1= (Button)findViewById(R.id.buttonZagraj);
-        OnClickListener c = new OnClickListener(){
+        P1 = (Button) findViewById(R.id.buttonZagraj);
 
-
+        OnClickListener c = new OnClickListener() {
             @Override
-            public void onClick(View v){
-                context1 = getApplicationContext();
-                Intent intent = new Intent(context1,Zygzak.class);
-                intent.putExtra("ImieUzytkownika", WprowadzoneImie.getText().toString());
-                startActivity(intent);
+
+            public void onClick(View v) {
+                if(TextUtils.isEmpty(WprowadzoneImie.getText())) {
+                    String message = "Wprowadź najpierw swoje imię!";
+                    Toast toast = Toast.makeText(getApplicationContext(), message,Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                else{
+                    Intent intent = new Intent(getApplicationContext(), Zygzak.class);
+                    intent.putExtra("ImieUzytkownika", WprowadzoneImie.getText().toString());
+                    startActivity(intent);
+                }
             }
         };
+
         P1.setOnClickListener(c);
 
 
-
+            //String message = "Wprowadź najpierw swoje imię!";
+           //// Toast toast = Toast.makeText(getApplicationContext(), message,Toast.LENGTH_LONG);
+           // toast.show();
 
     }
 
