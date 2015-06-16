@@ -56,11 +56,13 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import android.widget.EditText;
 import android.view.MenuItem;
-import android.view.View.OnTouchListener;
+import android.view.View.OnClickListener;
 
 
 
 public class Zygzak extends ActionBarActivity {
+
+
 
     Path Wzor = new Path();
     Path drawPath = new Path();
@@ -90,32 +92,16 @@ public class Zygzak extends ActionBarActivity {
     };*/
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(new CanvasView(this));
-
-
         Intent t = getIntent();
-        user = t.getStringExtra("ImieUzytkownika");     //pobranie nazwy uzytkownika z edittext
-      /*  View layout =  findViewById(R.id.a);
+        user = t.getStringExtra("ImieUzytkownika");//pobranie nazwy uzytkownika z edittext
 
 
-        OnTouchListener a = new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(flaga==1 && event.getAction()== MotionEvent.ACTION_UP){
-                    Intent intent = new Intent(getApplicationContext(),Koniec.class);
-                    startActivity(intent);
-                    flaga=0;
-                }
-
-            return true;
-            }
-
-        };
-        layout.setOnTouchListener(a);
-*/
     }
+
 
     public class CanvasView extends View implements Serializable {
 
@@ -224,7 +210,8 @@ public class Zygzak extends ActionBarActivity {
                     String FileName ="User: "+user+", Podejście: "+Licznik+" dla ścieżki nr: "+rand+".txt";
 
                         try {
-                            File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Baza danych/");
+                            File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Baza danych/"+user+"/");
+                            //TODO dokladna nazwa pliku
                             dir.mkdirs();
                             file1 = new File(dir, FileName);
                             System.out.println("Zapisano w: " + dir.toString());
@@ -253,7 +240,7 @@ public class Zygzak extends ActionBarActivity {
                             e.printStackTrace();
                         }
 
-                    PathPoints.clear();
+                    PathPoints.clear();   //wyczysz
 
 
                     int poprzedni=rand;  //przypisanie obecnie wykonanego wzoru
@@ -261,7 +248,8 @@ public class Zygzak extends ActionBarActivity {
                         rand = r.nextInt(10);                   //losowanie nowego wzoru ze sprawdzeniem czy nie wyswietli obecnego
                     }while(rand==poprzedni);
 
-                    if(Licznik==5) {                                //zliczanie ilosci wykonanych wzorow i komunikat o koncu
+                    if(Licznik==5) {
+                                     //TODO//zliczanie ilosci wykonanych wzorow i komunikat o koncu !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         rand = 50;
                         Context contextT = getApplicationContext();
                         String message = "DZIĘKI ZA WSPÓLNĄ ZABAWĘ :)";
@@ -269,6 +257,19 @@ public class Zygzak extends ActionBarActivity {
                         toast.show();
                         Licznik=0;
                         flaga=1;
+
+                        System.out.println("Prawie...");
+
+                     //   setContentView(R.layout.activity_koniec);
+                        finish();
+                        Intent Koniec = new Intent(getApplicationContext(), Koniec.class);
+                        Koniec.putExtra("ImieUzytkownikaKoniec",user);
+                        startActivity(Koniec);
+                        System.out.println("..jest");
+                        /*
+                        O
+
+*/
                     }
                     Licznik++;
 

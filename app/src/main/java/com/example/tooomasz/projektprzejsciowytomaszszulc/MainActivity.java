@@ -28,6 +28,7 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onClick(View v){
+                finish();
                 context3 = getApplicationContext();
                 Intent intent3 = new Intent(context3, MainMenu.class);
                 startActivity(intent3);

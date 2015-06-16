@@ -48,6 +48,7 @@ public class MainMenu extends ActionBarActivity {
                     toast.show();
                 }
                 else{
+                    finish();
                     Intent intent = new Intent(getApplicationContext(), Zygzak.class);
                     intent.putExtra("ImieUzytkownika", WprowadzoneImie.getText().toString());
                     startActivity(intent);
@@ -70,10 +71,7 @@ public class MainMenu extends ActionBarActivity {
        // getMenuInflater().inflate(R.menu.menu_main_menu, menu);
         super.onCreateOptionsMenu(menu);
         int base = Menu.FIRST;
-        menu.add(base, base, base, "GRAJ!");
-        menu.add(base, base+1, base+1, "TWOJE STATYSTYKI");
-        menu.add(base, base+2, base+2, "ZASADY GRY");
-        menu.add(base, base+3, base+3, "WYLOGUJ");
+
 
         return true;
     }

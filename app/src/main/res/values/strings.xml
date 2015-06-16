@@ -8,4 +8,5 @@
     <string name="title_activity_zasady_gry">ZasadyGry</string>
     <string name="Zagraj">Zagraj</string>
     <string name="title_activity_zygzak">Zygzak</string>
+    <string name="title_activity_koniec">Koniec</string>
 </resources>
