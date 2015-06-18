@@ -11,19 +11,19 @@
         android:layout_height="wrap_content"
         android:text="Zagraj ponownie"
         android:id="@+id/Again"
+        android:layout_marginTop="34dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="44dp" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nowy użytkownik"
         android:id="@+id/NewUser"
-        android:layout_above="@+id/Koniec"
+        android:layout_below="@+id/textView4"
         android:layout_alignLeft="@+id/Again"
         android:layout_alignStart="@+id/Again"
-        android:layout_marginBottom="80dp" />
+        android:layout_marginTop="46dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -33,4 +33,15 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="126dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Uwaga! \r\n Ponowna rozgrywka nadpisze wcześniej uzyskane wyniki."
+        android:id="@+id/textView4"
+        android:layout_below="@+id/Again"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"  />/>
 </RelativeLayout>

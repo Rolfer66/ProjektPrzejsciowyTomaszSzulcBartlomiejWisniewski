@@ -61,6 +61,9 @@ import java.io.PrintWriter;
 import android.widget.EditText;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
+import java.util.Date;
 
 
 
@@ -74,28 +77,13 @@ public class Zygzak extends ActionBarActivity {
     List<Point> PathPoints = new ArrayList<Point>();
     Tory Tor1 = new Tory();
     int rand=0;
-    int Licznik=1;    // zmienna do liczenia wystąpień rysowanych wzorów
+    int Licznik=1, LicznikProb=1;    // zmienna do liczenia wystąpień rysowanych wzorów
     Random r = new Random();
     int flaga=0;
     Region region = new Region();
 
 
     String user;
-
-    /*public double Error(){
-        double Min=2000;
-        double error=0;
-        for(int i=0; i<PatternPt.size();i++){
-             for(int j=0; j<UserPt.size();j++)
-                 if(Math.sqrt(Math.pow(UserPt.get(j).getX() - PatternPt.get(i).getX(), 2) + Math.pow(UserPt.get(j).getY()-PatternPt.get(i).getY(),2)) < Min){
-                    Min = Math.sqrt(Math.pow(UserPt.get(j).getX() - PatternPt.get(i).getX(), 2) + Math.pow(UserPt.get(j).getY() - PatternPt.get(i).getY(), 2));
-                     Log.d("Blad","Blad z petli: "+Min);
-                 }
-                 error = error + Min;
-                Min=2000;
-        }
-        return error;
-    };*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,7 +103,6 @@ public class Zygzak extends ActionBarActivity {
         Canvas drawCanvas;
         Path CirclePath;
 
-
         public CanvasView(Context context) {
             super(context);
             setupDrawing();
@@ -133,50 +120,39 @@ public class Zygzak extends ActionBarActivity {
 
 
 
-            //tu ustawiamy paint do kolka wwyswietlanego po wejsciu do regionu
+            //paaint okregow danego punkut
             drawCanvasPaint.setColor(Color.WHITE);
             drawCanvasPaint.setStyle(Paint.Style.FILL_AND_STROKE);
             drawCanvasPaint.setStrokeWidth(1f);
             drawCanvasPaint.setAntiAlias(true);
 
 
-
+            // pain okregow
             NineCirclesPaint.setColor(Color.WHITE);
             NineCirclesPaint.setStyle(Paint.Style.STROKE);
             NineCirclesPaint.setAntiAlias(true);
             NineCirclesPaint.setStrokeWidth(2f);
 
-
+            //paint wzoru
             WzorPaint.setStyle(Paint.Style.STROKE);
             WzorPaint.setStrokeWidth(11f);
             WzorPaint.setColor(Color.YELLOW);
             WzorPaint.setStrokeJoin(Paint.Join.ROUND);
-            //WzorPaint.setStrokeCap(Paint.Cap.ROUND);
-            //WzorPaint.setPathEffect(new CornerPathEffect(15));
             WzorPaint.setAntiAlias(true);
+
+            //paint sciezki uzytkownika
             drawPaint.setStyle(Paint.Style.STROKE);
             drawPaint.setStrokeWidth(11f);
             drawPaint.setColor(Color.RED);
             drawPaint.setStrokeJoin(Paint.Join.ROUND);
             drawPaint.setStrokeCap(Paint.Cap.ROUND);
 
-            NinePointsPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-            NinePointsPaint.setColor(Color.WHITE);
-
         }
 
         @Override
         public void onDraw(Canvas canvas) {
-
-
             canvas.drawRGB(80, 80, 80);
 
-
-            Tor1.RysujWzor3();
-
-
-
-            /*
             //Losowanie wzorow z bazy
             switch(rand){
                 case 0:
@@ -210,16 +186,13 @@ public class Zygzak extends ActionBarActivity {
                     Tor1.RysujWzor10();
                     break;
             }
-            */
-
-            //Tor1.RysujWzor2(); //Wyrysowanie wzoru metoda z klasy Wzory.
 
 
             canvas.drawPath(Wzor, WzorPaint);  //rysowanie wzoru
             canvas.drawPath(drawPath, drawPaint);
 
 
-            /** Rysowanie 9 punktów i kółek ******/
+            // Rysowanie 9 punktów
             canvas.drawCircle(90, 200, 6, NinePointsPaint);
             canvas.drawCircle(240, 200, 6, NinePointsPaint);
             canvas.drawCircle(390, 200, 6, NinePointsPaint);
@@ -232,7 +205,7 @@ public class Zygzak extends ActionBarActivity {
             canvas.drawCircle(240, 600, 6, NinePointsPaint);
             canvas.drawCircle(390, 600, 6, NinePointsPaint);
 
-            //kółka
+            //okregi dookola punktow
             canvas.drawCircle(90, 200, 20, NineCirclesPaint);
             canvas.drawCircle(240, 200, 20, NineCirclesPaint);
             canvas.drawCircle(390, 200, 20, NineCirclesPaint);
@@ -262,39 +235,19 @@ public class Zygzak extends ActionBarActivity {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:   // Wykryto  nowy dotyk
 
-                    //drawPath.moveTo(eventX, eventY);
-                    PathPoints.add(new Point(eventX,eventY));
-                    /********************************* Jezeli w regionie znajduje sie palec to ma rysowac koleczko
-                    if(region.contains((int)eventX,(int)eventY)){
-                        Log.d("Region: ", "Touch IN");
-                        //drawCanvas.drawCircle(90, 200, 20, drawCanvasPaint);
-                        CirclePath.addCircle(90,200,70,Path.Direction.CW);
-                    }
-                    else{
-                        CirclePath.reset();
-                    }
-                     ***************************************/
+                    drawPath.moveTo(eventX, eventY);
+                    PathPoints.add(new Point(eventX, eventY));
+
                     invalidate();
                     break;
 
 
                 case MotionEvent.ACTION_MOVE:   // Przesunięcie palca
 
-                    //drawPath.lineTo(eventX, eventY);
+                    drawPath.lineTo(eventX, eventY);
                     PathPoints.add(new Point(eventX, eventY));
                     //drawCanvas.drawPath(drawPath, drawPaint);
-                    //drawPath.moveTo(eventX, eventY);
 
-                    /********************************* Jezeli w regionie znajduje sie palec to ma rysowac koleczko
-                    if(region.contains((int)eventX,(int)eventY)){
-                        Log.d("Region: ", "Touch IN");
-                        //drawCanvas.drawCircle(90, 200, 20, drawCanvasPaint);
-                        CirclePath.addCircle(90, 200, 20, Path.Direction.CW);
-                    }
-                    else{
-                        CirclePath.reset();
-                     }
-                     *******************************/
                     invalidate();
                     break;
 
@@ -304,71 +257,64 @@ public class Zygzak extends ActionBarActivity {
                     drawPath.reset();
                     Wzor.reset();                       //usuniecie z pamieci poprzedniego
 
+                    SimpleDateFormat simpleDateHere = new SimpleDateFormat("yyyy-MM-dd (Z)");
+                    System.out.println("dzisiaj mamy: " + simpleDateHere.format(new Date()).toString());
+
                     File file1;
                     FileOutputStream outputStream;
-                    String FileName ="User: "+user+", Podejście: "+Licznik+" dla ścieżki nr: "+rand+".txt";
+                    String FileName ="ścieżka nr: "+rand+".txt";
 
                         try {
-                            File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Baza danych/"+user+"/");
+                            File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Baza danych/"+user+"/"+simpleDateHere.format(new Date()).toString()+"/"+"Proba: "+LicznikProb);
                             //TODO dokladna nazwa pliku
                             dir.mkdirs();
                             file1 = new File(dir, FileName);
-                            System.out.println("Zapisano w: " + dir.toString());
                             outputStream = new FileOutputStream(file1);
                             System.out.println(PathPoints.size());
                             System.out.println("Zapis rozpoczety");
 
-
                             for (int i = 0; i < PathPoints.size(); i++) {
                                 float FBuffX = PathPoints.get(i).getX();
                                 float FBuffY = PathPoints.get(i).getY();
-
-                                FBuffX= Math.round(FBuffX);
+                                FBuffX= Math.round(FBuffX);                   //zaokraglenie liczb
                                 FBuffY= Math.round(FBuffY);
-
-                                String SBuff = "Punkt nr: "+i+"  X: "+ FBuffX + ", Y: " + FBuffY + "\r\n";
+                                String SBuff = "Punkt nr: "+i+"  X: "+ FBuffX + ", Y: " + FBuffY + "\r\n"; //zapis do pliku
                                 System.out.println(SBuff);
                                 outputStream.write(SBuff.getBytes());
-
                             }
                             System.out.println("Zapis zakonczony");
                             outputStream.close();
                             System.out.println("Plik zamkniety");
-                        } catch (IOException e) {
-                            System.out.println("nie dalo rady Panie");
+                        }
+                        catch (IOException e) {
                             e.printStackTrace();
                         }
 
-                    PathPoints.clear();   //wyczysz
+                    PathPoints.clear();   //wyczysc
 
 
-                    int poprzedni=rand;  //przypisanie obecnie wykonanego wzoru
-                    do{
-                        rand = r.nextInt(10);                   //losowanie nowego wzoru ze sprawdzeniem czy nie wyswietli obecnego
-                    }while(rand==poprzedni);
+                    rand++;
 
-                    if(Licznik==5) {
+                    if(Licznik==10) {
                                      //TODO//zliczanie ilosci wykonanych wzorow i komunikat o koncu !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                        rand = 50;
-                        Context contextT = getApplicationContext();
-                        String message = "DZIĘKI ZA WSPÓLNĄ ZABAWĘ :)";
-                        Toast toast = Toast.makeText(contextT, message,Toast.LENGTH_SHORT);
-                        toast.show();
+                        rand = 0;
+
+                        if(LicznikProb==5) {
+                            Context contextT = getApplicationContext();
+                            String message = "DZIĘKI ZA WSPÓLNĄ ZABAWĘ :)";
+                            Toast toast = Toast.makeText(contextT, message, Toast.LENGTH_SHORT);
+                            toast.show();
+                            Licznik = 0;
+
+                            finish();
+                            Intent Koniec = new Intent(getApplicationContext(), Koniec.class);
+                            Koniec.putExtra("ImieUzytkownikaKoniec", user);
+                            startActivity(Koniec);
+                            System.out.println("..jest");
+                            LicznikProb=0;
+                        }
+                        LicznikProb++;
                         Licznik=0;
-                        flaga=1;
-
-                        System.out.println("Prawie...");
-
-                     //   setContentView(R.layout.activity_koniec);
-                        finish();
-                        Intent Koniec = new Intent(getApplicationContext(), Koniec.class);
-                        Koniec.putExtra("ImieUzytkownikaKoniec",user);
-                        startActivity(Koniec);
-                        System.out.println("..jest");
-                        /*
-                        O
-
-*/
                     }
                     Licznik++;
                     invalidate();
@@ -419,9 +365,6 @@ public class Zygzak extends ActionBarActivity {
             Wzor.lineTo(90, 600);
             Wzor.lineTo(390, 600);
             Wzor.lineTo(240, 400);
-
-
-
         }
 
         public void RysujWzor3(){
