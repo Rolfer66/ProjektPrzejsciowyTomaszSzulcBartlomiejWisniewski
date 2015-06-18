@@ -9,13 +9,17 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.Point;
+import android.graphics.Region;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.Layout;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.*;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -73,6 +77,8 @@ public class Zygzak extends ActionBarActivity {
     int Licznik=1;    // zmienna do liczenia wystąpień rysowanych wzorów
     Random r = new Random();
     int flaga=0;
+    Region region = new Region();
+
 
     String user;
 
@@ -105,8 +111,10 @@ public class Zygzak extends ActionBarActivity {
 
     public class CanvasView extends View implements Serializable {
 
-        Paint drawPaint, WzorPaint;
+        Paint drawPaint, WzorPaint, PointsPaint, drawCanvasPaint;
         Canvas drawCanvas;
+        Path CirclePath;
+
 
         public CanvasView(Context context) {
             super(context);
@@ -118,26 +126,64 @@ public class Zygzak extends ActionBarActivity {
             WzorPaint = new Paint();
             drawPaint = new Paint();
             drawCanvas = new Canvas();
+            PointsPaint = new Paint();
+            drawCanvasPaint = new Paint();
+            CirclePath = new Path();
+
+
+
+            //tu ustawiamy paint do kolka wwyswietlanego po wejsciu do regionu
+            drawCanvasPaint.setColor(Color.WHITE);
+            drawCanvasPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+            drawCanvasPaint.setStrokeWidth(1f);
+            drawCanvasPaint.setAntiAlias(true);
+
+
+
+
+
 
             WzorPaint.setStyle(Paint.Style.STROKE);
             WzorPaint.setStrokeWidth(11f);
             WzorPaint.setColor(Color.YELLOW);
             WzorPaint.setStrokeJoin(Paint.Join.ROUND);
-            WzorPaint.setStrokeCap(Paint.Cap.ROUND);
-            WzorPaint.setPathEffect(new CornerPathEffect(15));
-
+            //WzorPaint.setStrokeCap(Paint.Cap.ROUND);
+            //WzorPaint.setPathEffect(new CornerPathEffect(15));
+            WzorPaint.setAntiAlias(true);
             drawPaint.setStyle(Paint.Style.STROKE);
             drawPaint.setStrokeWidth(11f);
             drawPaint.setColor(Color.RED);
             drawPaint.setStrokeJoin(Paint.Join.ROUND);
             drawPaint.setStrokeCap(Paint.Cap.ROUND);
 
+            PointsPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+            PointsPaint.setColor(Color.WHITE);
+
         }
 
         @Override
         public void onDraw(Canvas canvas) {
-            //Losowanie wzorow z bazy
 
+
+            canvas.drawRGB(80, 80, 80);
+            canvas.drawCircle(90, 200, 6, PointsPaint);
+            canvas.drawCircle(240, 200, 6, PointsPaint);
+            canvas.drawCircle(390, 200, 6, PointsPaint);
+
+            canvas.drawCircle(90, 400, 6, PointsPaint);
+            canvas.drawCircle(240,400,6,PointsPaint);
+            canvas.drawCircle(390,400,6,PointsPaint);
+
+            canvas.drawCircle(90, 600, 6, PointsPaint);
+            canvas.drawCircle(240,600,6,PointsPaint);
+            canvas.drawCircle(390,600,6,PointsPaint);
+
+            Tor1.RysujWzor3();
+
+
+
+            /*
+            //Losowanie wzorow z bazy
             switch(rand){
                 case 0:
                     Tor1.RysujWzor1();
@@ -170,12 +216,29 @@ public class Zygzak extends ActionBarActivity {
                     Tor1.RysujWzor10();
                     break;
             }
+            */
 
             //Tor1.RysujWzor2(); //Wyrysowanie wzoru metoda z klasy Wzory.
 
-            canvas.drawRGB(80, 80, 80);
+
             canvas.drawPath(Wzor, WzorPaint);  //rysowanie wzoru
             canvas.drawPath(drawPath, drawPaint);
+            canvas.drawCircle(90, 200, 6, PointsPaint);
+            canvas.drawCircle(240, 200, 6, PointsPaint);
+            canvas.drawCircle(390, 200, 6, PointsPaint);
+
+            canvas.drawCircle(90, 400, 6, PointsPaint);
+            canvas.drawCircle(240,400,6,PointsPaint);
+            canvas.drawCircle(390,400,6,PointsPaint);
+
+            canvas.drawCircle(90, 600, 6, PointsPaint);
+            canvas.drawCircle(240, 600, 6, PointsPaint);
+            canvas.drawCircle(390, 600, 6, PointsPaint);
+            canvas.drawPath(CirclePath,drawCanvasPaint);
+
+            //region.set(40,150,100,210); ustawianie regionu - prostokąt
+
+
         }
 
         //@Override
@@ -187,20 +250,44 @@ public class Zygzak extends ActionBarActivity {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:   // Wykryto  nowy dotyk
 
-                    drawPath.moveTo(eventX, eventY);
+                    //drawPath.moveTo(eventX, eventY);
                     PathPoints.add(new Point(eventX,eventY));
-                    return true;
+                    /********************************* Jezeli w regionie znajduje sie palec to ma rysowac koleczko
+                    if(region.contains((int)eventX,(int)eventY)){
+                        Log.d("Region: ", "Touch IN");
+                        //drawCanvas.drawCircle(90, 200, 20, drawCanvasPaint);
+                        CirclePath.addCircle(90,200,70,Path.Direction.CW);
+                    }
+                    else{
+                        CirclePath.reset();
+                    }
+                     ***************************************/
+                    invalidate();
+                    break;
+
 
                 case MotionEvent.ACTION_MOVE:   // Przesunięcie palca
 
-                    drawPath.lineTo(eventX, eventY);
+                    //drawPath.lineTo(eventX, eventY);
                     PathPoints.add(new Point(eventX, eventY));
                     //drawCanvas.drawPath(drawPath, drawPaint);
                     //drawPath.moveTo(eventX, eventY);
-                    return true;
+
+                    /********************************* Jezeli w regionie znajduje sie palec to ma rysowac koleczko
+                    if(region.contains((int)eventX,(int)eventY)){
+                        Log.d("Region: ", "Touch IN");
+                        //drawCanvas.drawCircle(90, 200, 20, drawCanvasPaint);
+                        CirclePath.addCircle(90, 200, 20, Path.Direction.CW);
+                    }
+                    else{
+                        CirclePath.reset();
+                     }
+                     *******************************/
+                    invalidate();
+                    break;
 
                 case MotionEvent.ACTION_UP: // Palec zabrany z ekranu
-                    drawPath.lineTo(eventX, eventY);
+                    //drawPath.lineTo(eventX, eventY);
                     PathPoints.add(new Point(eventX, eventY));
                     drawPath.reset();
                     Wzor.reset();                       //usuniecie z pamieci poprzedniego
@@ -253,7 +340,7 @@ public class Zygzak extends ActionBarActivity {
                         rand = 50;
                         Context contextT = getApplicationContext();
                         String message = "DZIĘKI ZA WSPÓLNĄ ZABAWĘ :)";
-                        Toast toast = Toast.makeText(contextT, message,Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(contextT, message,Toast.LENGTH_SHORT);
                         toast.show();
                         Licznik=0;
                         flaga=1;
@@ -272,6 +359,7 @@ public class Zygzak extends ActionBarActivity {
 */
                     }
                     Licznik++;
+                    invalidate();
 
                     break;
                 default:
@@ -296,64 +384,54 @@ public class Zygzak extends ActionBarActivity {
     }
 
     public class Tory{
+        public void RysujPunkty(){
+
+        }
 
         public void RysujWzor1() {
-            Wzor.moveTo(100, 100); PatternPt.add(new Point(100, 100));
-            Wzor.lineTo(350, 200); PatternPt.add(new Point(350, 200));
-            Wzor.lineTo(150, 350); PatternPt.add(new Point(150, 350));
-            Wzor.lineTo(350, 500); PatternPt.add(new Point(350, 500));
-            Wzor.lineTo(150, 600); PatternPt.add(new Point(150, 600));
+            Wzor.moveTo(90, 200);
+            Wzor.lineTo(390, 200);
+            Wzor.lineTo(240, 400);
+            Wzor.lineTo(90, 600);
+            Wzor.lineTo(390, 600);
+            Wzor.lineTo(90, 200);
         }
 
         public void RysujWzor2() {
-            Wzor.moveTo(100, 100); PatternPt.add(new Point(100, 100));
-            Wzor.lineTo(200, 200); PatternPt.add(new Point(200, 200));
-            Wzor.lineTo(300, 150); PatternPt.add(new Point(300, 150));
-            Wzor.lineTo(350, 225); PatternPt.add(new Point(350, 225));
-            Wzor.lineTo(400, 300); PatternPt.add(new Point(400, 300));
-            Wzor.lineTo(350, 350); PatternPt.add(new Point(350, 350));
-            Wzor.lineTo(300, 400); PatternPt.add(new Point(300, 400));
-            Wzor.lineTo(240, 375); PatternPt.add(new Point(240, 375));
-            Wzor.lineTo(150, 350); PatternPt.add(new Point(150, 350));
-            Wzor.lineTo(100, 550); PatternPt.add(new Point(100, 550));
-            Wzor.lineTo(250, 600); PatternPt.add(new Point(250, 600));
+            Wzor.moveTo(240, 200);
+            Wzor.lineTo(90, 400);
+            Wzor.lineTo(240, 600);
+            Wzor.lineTo(390, 400);
+            Wzor.lineTo(240, 200);
+            Wzor.lineTo(240, 400);
+            Wzor.lineTo(90, 600);
+            Wzor.lineTo(390, 600);
+            Wzor.lineTo(240, 400);
+
+
+
         }
 
         public void RysujWzor3(){
-            Wzor.moveTo(250, 100); PatternPt.add(new Point(250, 100));
-            Wzor.lineTo(100, 200); PatternPt.add(new Point(100, 200));
-            Wzor.lineTo(50, 400);  PatternPt.add(new Point(50, 400));
-            Wzor.lineTo(100, 600); PatternPt.add(new Point(100, 600));
-            Wzor.lineTo(200, 650); PatternPt.add(new Point(200, 650));
-            Wzor.lineTo(300, 500); PatternPt.add(new Point(300, 500));
-            Wzor.lineTo(200, 400); PatternPt.add(new Point(200, 400));
+            Wzor.moveTo(90, 200);
+            Wzor.lineTo(90, 400);
+            Wzor.lineTo(240, 400);
+            Wzor.lineTo(240, 600);
+            Wzor.lineTo(390, 600);
+            Wzor.lineTo(390, 400);
+            Wzor.lineTo(240, 400);
+            Wzor.lineTo(240, 200);
+            Wzor.lineTo(90, 200);
+            Wzor.lineTo(390, 600);
         }
 
         public void RysujWzor4(){
-            Wzor.moveTo(50, 100);  PatternPt.add(new Point(50, 100));
-            Wzor.lineTo(100, 250); PatternPt.add(new Point(100, 250));
-            Wzor.lineTo(150, 200); PatternPt.add(new Point(150, 200));
-            Wzor.lineTo(200, 350); PatternPt.add(new Point(200, 350));
-            Wzor.lineTo(250, 300); PatternPt.add(new Point(250, 300));
-            Wzor.lineTo(300, 450); PatternPt.add(new Point(300, 450));
+            Wzor.moveTo(90, 200);
+            Wzor.lineTo(90, 400);
         }
 
         public void RysujWzor5(){
-            Wzor.moveTo(175, 600); PatternPt.add(new Point(175, 600));
-            Wzor.lineTo(175, 550); PatternPt.add(new Point(175, 650));
-            Wzor.lineTo(25, 550);  PatternPt.add(new Point(25, 550));
-            Wzor.lineTo(125, 450); PatternPt.add(new Point(125, 450));
-            Wzor.lineTo(75, 450);  PatternPt.add(new Point(75, 450));
-            Wzor.lineTo(175, 350); PatternPt.add(new Point(175, 350));
-            Wzor.lineTo(125, 350); PatternPt.add(new Point(125, 350));
-            Wzor.lineTo(225, 250); PatternPt.add(new Point(225, 250));
-            Wzor.lineTo(325, 350); PatternPt.add(new Point(325, 350));
-            Wzor.lineTo(275, 350); PatternPt.add(new Point(275, 350));
-            Wzor.lineTo(375, 450); PatternPt.add(new Point(375, 450));
-            Wzor.lineTo(325, 450); PatternPt.add(new Point(325, 450));
-            Wzor.lineTo(425, 550); PatternPt.add(new Point(425, 550));
-            Wzor.lineTo(275, 550); PatternPt.add(new Point(275, 550));
-            Wzor.lineTo(275, 600); PatternPt.add(new Point(275, 620));
+
         }
         public void RysujWzor6() {
             Wzor.moveTo(150, 500); PatternPt.add(new Point(150, 500));
