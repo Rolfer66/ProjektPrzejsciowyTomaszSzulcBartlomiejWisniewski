@@ -1,60 +1,11 @@
 package com.example.tooomasz.projektprzejsciowytomaszszulc;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.CornerPathEffect;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.PathMeasure;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Editable;
-import android.text.Layout;
 import android.view.Menu;
 import android.view.View;
 import android.widget.*;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.graphics.Canvas;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.apache.http.HttpHost;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
-import java.util.Random;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Handler;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import android.widget.EditText;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
 
@@ -114,12 +65,7 @@ public class Koniec extends ActionBarActivity {
             }
         };
         nowy.setOnClickListener(Nowy);
-
-
     }
-
-
-
 
 
     @Override

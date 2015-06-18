@@ -4,83 +4,36 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PathMeasure;
-import android.graphics.Point;
-import android.graphics.Region;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Editable;
-import android.text.Layout;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Menu;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.*;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import org.apache.http.HttpHost;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Handler;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import android.widget.EditText;
-import android.view.MenuItem;
-import android.view.View.OnClickListener;
 import java.text.SimpleDateFormat;
-import java.util.TimeZone;
 import java.util.Date;
 
 
 
 public class Zygzak extends ActionBarActivity {
 
-
-
     Path Wzor = new Path();
     Path drawPath = new Path();
-    List<Point> PatternPt = new ArrayList<Point>();
     List<Point> PathPoints = new ArrayList<Point>();
     Tory Tor1 = new Tory();
     int rand=0;
     int Licznik=1, LicznikProb=1;    // zmienna do liczenia wystąpień rysowanych wzorów
-    Random r = new Random();
-    int flaga=0;
-    Region region = new Region();
 
 
     String user;
@@ -118,8 +71,6 @@ public class Zygzak extends ActionBarActivity {
             CirclePath = new Path();            //wyswietlani najechania nie dziala panie
             NineCirclesPaint = new Paint();
 
-
-
             //paaint okregow danego punkut
             drawCanvasPaint.setColor(Color.WHITE);
             drawCanvasPaint.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -153,7 +104,7 @@ public class Zygzak extends ActionBarActivity {
         public void onDraw(Canvas canvas) {
             canvas.drawRGB(80, 80, 80);
 
-            //Losowanie wzorow z bazy
+            //Wybieranie wzoru z bazy
             switch(rand){
                 case 0:
                     Tor1.RysujWzor1();
@@ -187,23 +138,22 @@ public class Zygzak extends ActionBarActivity {
                     break;
             }
 
-
             canvas.drawPath(Wzor, WzorPaint);  //rysowanie wzoru
             canvas.drawPath(drawPath, drawPaint);
 
 
             // Rysowanie 9 punktów
-            canvas.drawCircle(90, 200, 6, NinePointsPaint);
-            canvas.drawCircle(240, 200, 6, NinePointsPaint);
-            canvas.drawCircle(390, 200, 6, NinePointsPaint);
+            canvas.drawCircle(90, 200, 9, NinePointsPaint);
+            canvas.drawCircle(240, 200, 9, NinePointsPaint);
+            canvas.drawCircle(390, 200, 9, NinePointsPaint);
 
-            canvas.drawCircle(90, 400, 6, NinePointsPaint);
-            canvas.drawCircle(240,400,6,NinePointsPaint);
-            canvas.drawCircle(390,400,6,NinePointsPaint);
+            canvas.drawCircle(90, 400, 9, NinePointsPaint);
+            canvas.drawCircle(240,400,9,NinePointsPaint);
+            canvas.drawCircle(390,400,9,NinePointsPaint);
 
-            canvas.drawCircle(90, 600, 6, NinePointsPaint);
-            canvas.drawCircle(240, 600, 6, NinePointsPaint);
-            canvas.drawCircle(390, 600, 6, NinePointsPaint);
+            canvas.drawCircle(90, 600, 9, NinePointsPaint);
+            canvas.drawCircle(240, 600, 9, NinePointsPaint);
+            canvas.drawCircle(390, 600, 9, NinePointsPaint);
 
             //okregi dookola punktow
             canvas.drawCircle(90, 200, 20, NineCirclesPaint);
@@ -218,12 +168,7 @@ public class Zygzak extends ActionBarActivity {
             canvas.drawCircle(240,600,20, NineCirclesPaint);
             canvas.drawCircle(390,600,20, NineCirclesPaint);
 
-
             canvas.drawPath(CirclePath,drawCanvasPaint);
-
-            //region.set(40,150,100,210); ustawianie regionu - prostokąt
-
-
         }
 
         //@Override
@@ -231,28 +176,23 @@ public class Zygzak extends ActionBarActivity {
             float eventX = event.getX();
             float eventY = event.getY();
 
-
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:   // Wykryto  nowy dotyk
 
                     drawPath.moveTo(eventX, eventY);
                     PathPoints.add(new Point(eventX, eventY));
-
                     invalidate();
                     break;
-
 
                 case MotionEvent.ACTION_MOVE:   // Przesunięcie palca
 
                     drawPath.lineTo(eventX, eventY);
                     PathPoints.add(new Point(eventX, eventY));
-                    //drawCanvas.drawPath(drawPath, drawPaint);
-
                     invalidate();
                     break;
 
                 case MotionEvent.ACTION_UP: // Palec zabrany z ekranu
-                    //drawPath.lineTo(eventX, eventY);
+
                     PathPoints.add(new Point(eventX, eventY));
                     drawPath.reset();
                     Wzor.reset();                       //usuniecie z pamieci poprzedniego
@@ -361,10 +301,6 @@ public class Zygzak extends ActionBarActivity {
             Wzor.lineTo(240, 600);
             Wzor.lineTo(390, 400);
             Wzor.lineTo(240, 200);
-            Wzor.lineTo(240, 400);
-            Wzor.lineTo(90, 600);
-            Wzor.lineTo(390, 600);
-            Wzor.lineTo(240, 400);
         }
 
         public void RysujWzor3(){
@@ -377,7 +313,6 @@ public class Zygzak extends ActionBarActivity {
             Wzor.lineTo(240, 400);
             Wzor.lineTo(240, 200);
             Wzor.lineTo(90, 200);
-            Wzor.lineTo(390, 600);
         }
 
         public void RysujWzor4(){
