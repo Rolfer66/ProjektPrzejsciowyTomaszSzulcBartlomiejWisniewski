@@ -111,7 +111,7 @@ public class Zygzak extends ActionBarActivity {
 
     public class CanvasView extends View implements Serializable {
 
-        Paint drawPaint, WzorPaint, PointsPaint, drawCanvasPaint;
+        Paint drawPaint, WzorPaint, NinePointsPaint, NineCirclesPaint, drawCanvasPaint;
         Canvas drawCanvas;
         Path CirclePath;
 
@@ -126,9 +126,10 @@ public class Zygzak extends ActionBarActivity {
             WzorPaint = new Paint();
             drawPaint = new Paint();
             drawCanvas = new Canvas();
-            PointsPaint = new Paint();
+            NinePointsPaint = new Paint();
             drawCanvasPaint = new Paint();
-            CirclePath = new Path();
+            CirclePath = new Path();            //wyswietlani najechania nie dziala panie
+            NineCirclesPaint = new Paint();
 
 
 
@@ -140,7 +141,10 @@ public class Zygzak extends ActionBarActivity {
 
 
 
-
+            NineCirclesPaint.setColor(Color.WHITE);
+            NineCirclesPaint.setStyle(Paint.Style.STROKE);
+            NineCirclesPaint.setAntiAlias(true);
+            NineCirclesPaint.setStrokeWidth(2f);
 
 
             WzorPaint.setStyle(Paint.Style.STROKE);
@@ -156,8 +160,8 @@ public class Zygzak extends ActionBarActivity {
             drawPaint.setStrokeJoin(Paint.Join.ROUND);
             drawPaint.setStrokeCap(Paint.Cap.ROUND);
 
-            PointsPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-            PointsPaint.setColor(Color.WHITE);
+            NinePointsPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+            NinePointsPaint.setColor(Color.WHITE);
 
         }
 
@@ -166,17 +170,7 @@ public class Zygzak extends ActionBarActivity {
 
 
             canvas.drawRGB(80, 80, 80);
-            canvas.drawCircle(90, 200, 6, PointsPaint);
-            canvas.drawCircle(240, 200, 6, PointsPaint);
-            canvas.drawCircle(390, 200, 6, PointsPaint);
 
-            canvas.drawCircle(90, 400, 6, PointsPaint);
-            canvas.drawCircle(240,400,6,PointsPaint);
-            canvas.drawCircle(390,400,6,PointsPaint);
-
-            canvas.drawCircle(90, 600, 6, PointsPaint);
-            canvas.drawCircle(240,600,6,PointsPaint);
-            canvas.drawCircle(390,600,6,PointsPaint);
 
             Tor1.RysujWzor3();
 
@@ -223,17 +217,35 @@ public class Zygzak extends ActionBarActivity {
 
             canvas.drawPath(Wzor, WzorPaint);  //rysowanie wzoru
             canvas.drawPath(drawPath, drawPaint);
-            canvas.drawCircle(90, 200, 6, PointsPaint);
-            canvas.drawCircle(240, 200, 6, PointsPaint);
-            canvas.drawCircle(390, 200, 6, PointsPaint);
 
-            canvas.drawCircle(90, 400, 6, PointsPaint);
-            canvas.drawCircle(240,400,6,PointsPaint);
-            canvas.drawCircle(390,400,6,PointsPaint);
 
-            canvas.drawCircle(90, 600, 6, PointsPaint);
-            canvas.drawCircle(240, 600, 6, PointsPaint);
-            canvas.drawCircle(390, 600, 6, PointsPaint);
+            /** Rysowanie 9 punktów i kółek ******/
+            canvas.drawCircle(90, 200, 6, NinePointsPaint);
+            canvas.drawCircle(240, 200, 6, NinePointsPaint);
+            canvas.drawCircle(390, 200, 6, NinePointsPaint);
+
+            canvas.drawCircle(90, 400, 6, NinePointsPaint);
+            canvas.drawCircle(240,400,6,NinePointsPaint);
+            canvas.drawCircle(390,400,6,NinePointsPaint);
+
+            canvas.drawCircle(90, 600, 6, NinePointsPaint);
+            canvas.drawCircle(240, 600, 6, NinePointsPaint);
+            canvas.drawCircle(390, 600, 6, NinePointsPaint);
+
+            //kółka
+            canvas.drawCircle(90, 200, 20, NineCirclesPaint);
+            canvas.drawCircle(240, 200, 20, NineCirclesPaint);
+            canvas.drawCircle(390, 200, 20, NineCirclesPaint);
+
+            canvas.drawCircle(90, 400, 20, NineCirclesPaint);
+            canvas.drawCircle(240,400,20, NineCirclesPaint);
+            canvas.drawCircle(390,400,20, NineCirclesPaint);
+
+            canvas.drawCircle(90, 600, 20, NineCirclesPaint);
+            canvas.drawCircle(240,600,20, NineCirclesPaint);
+            canvas.drawCircle(390,600,20, NineCirclesPaint);
+
+
             canvas.drawPath(CirclePath,drawCanvasPaint);
 
             //region.set(40,150,100,210); ustawianie regionu - prostokąt
@@ -427,81 +439,60 @@ public class Zygzak extends ActionBarActivity {
 
         public void RysujWzor4(){
             Wzor.moveTo(90, 200);
-            Wzor.lineTo(90, 400);
+            Wzor.lineTo(390, 200);
+            Wzor.lineTo(90, 600);
+            Wzor.lineTo(390, 600);
         }
 
         public void RysujWzor5(){
+            Wzor.moveTo(90, 200);
+            Wzor.lineTo(240, 200);
+            Wzor.lineTo(240, 400);
+            Wzor.lineTo(390, 400);
+            Wzor.lineTo(390, 600);
+
 
         }
         public void RysujWzor6() {
-            Wzor.moveTo(150, 500); PatternPt.add(new Point(150, 500));
-            Wzor.lineTo(350, 500); PatternPt.add(new Point(350, 500));
-            Wzor.lineTo(150, 350); PatternPt.add(new Point(150, 350));
-            Wzor.lineTo(350, 350); PatternPt.add(new Point(350, 350));
-            Wzor.lineTo(250, 250); PatternPt.add(new Point(250, 250));
-            Wzor.lineTo(150, 350); PatternPt.add(new Point(150, 350));
-            Wzor.lineTo(150, 500); PatternPt.add(new Point(150, 500));
-            Wzor.lineTo(350, 350); PatternPt.add(new Point(350, 350));
-            Wzor.lineTo(350, 500); PatternPt.add(new Point(350, 500));
-
-}
-        public void RysujWzor7(){
-            Wzor.moveTo(130, 500); PatternPt.add(new Point(130, 500));
-            Wzor.lineTo(180, 350); PatternPt.add(new Point(180, 350));
-            Wzor.lineTo(30, 300);  PatternPt.add(new Point(30, 300));
-            Wzor.lineTo(180, 300); PatternPt.add(new Point(180, 300));
-            Wzor.lineTo(230, 150); PatternPt.add(new Point(230, 150));
-            Wzor.lineTo(280, 300); PatternPt.add(new Point(280, 300));
-            Wzor.lineTo(430, 300); PatternPt.add(new Point(430, 300));
-            Wzor.lineTo(280, 350); PatternPt.add(new Point(280, 350));
-            Wzor.lineTo(330, 500); PatternPt.add(new Point(330, 500));
-            Wzor.lineTo(230, 400); PatternPt.add(new Point(230, 400));
-            Wzor.lineTo(130, 500); PatternPt.add(new Point(130, 500));
+            Wzor.moveTo(90, 200);
+            Wzor.lineTo(90, 600);
+            Wzor.lineTo(390, 200);
+            Wzor.lineTo(390, 600);
         }
+
+
+        public void RysujWzor7() {
+            Wzor.moveTo(240, 200);
+            Wzor.lineTo(390, 400);
+            Wzor.lineTo(240, 600);
+            Wzor.lineTo(90, 400);
+            Wzor.lineTo(240, 200);
+        }
+
 
         public void RysujWzor8(){
-            Wzor.moveTo(100, 500); PatternPt.add(new Point(100, 500));
-            Wzor.lineTo(50, 300);  PatternPt.add(new Point(50, 300));
-            Wzor.lineTo(150, 450); PatternPt.add(new Point(150, 450));
-            Wzor.lineTo(200, 250); PatternPt.add(new Point(200, 250));
-            Wzor.lineTo(250, 450); PatternPt.add(new Point(250, 450));
-            Wzor.lineTo(300, 250); PatternPt.add(new Point(300, 250));
-            Wzor.lineTo(350, 450); PatternPt.add(new Point(350, 450));
-            Wzor.lineTo(450, 300); PatternPt.add(new Point(450, 300));
-            Wzor.lineTo(400, 500); PatternPt.add(new Point(400, 500));
-            Wzor.lineTo(100, 500); PatternPt.add(new Point(100, 500));
+            Wzor.moveTo(90, 400);
+            Wzor.lineTo(390, 200);
+            Wzor.lineTo(390, 600);
+            Wzor.moveTo(90, 400);
         }
         public void RysujWzor9(){
-            Wzor.moveTo(100, 700); PatternPt.add(new Point(100, 700));
-            Wzor.lineTo(100, 100); PatternPt.add(new Point(100, 100));
-            Wzor.lineTo(450, 100); PatternPt.add(new Point(450, 100));
-            Wzor.lineTo(200, 250); PatternPt.add(new Point(200, 250));
-            Wzor.lineTo(450, 400); PatternPt.add(new Point(450, 400));
-            Wzor.lineTo(100, 400); PatternPt.add(new Point(100, 400));
+            Wzor.moveTo(90, 200);
+            Wzor.lineTo(390, 200);
+            Wzor.lineTo(390, 600);
+            Wzor.lineTo(90, 600);
+            Wzor.lineTo(90, 200);
+
         }
         public void RysujWzor10(){
-            Wzor.moveTo(250, 700); PatternPt.add(new Point(250, 700));
-            Wzor.lineTo(250, 450); PatternPt.add(new Point(250, 450));
-            Wzor.lineTo(150, 400); PatternPt.add(new Point(150, 400));
-            Wzor.lineTo(50, 300);  PatternPt.add(new Point(50, 300));
-            Wzor.lineTo(180, 350); PatternPt.add(new Point(180, 350));
-            Wzor.lineTo(250, 450); PatternPt.add(new Point(250, 450));
-            Wzor.lineTo(250, 250); PatternPt.add(new Point(250, 250));
-            Wzor.lineTo(200, 200); PatternPt.add(new Point(200, 200));
-            Wzor.lineTo(150, 100); PatternPt.add(new Point(150, 100));
-            Wzor.lineTo(200, 150); PatternPt.add(new Point(200, 150));
-            Wzor.lineTo(225, 100); PatternPt.add(new Point(225, 100));
-            Wzor.lineTo(250, 150); PatternPt.add(new Point(250, 150));
-            Wzor.lineTo(275, 100); PatternPt.add(new Point(275, 100));
-            Wzor.lineTo(300, 150); PatternPt.add(new Point(300, 150));
-            Wzor.lineTo(350, 100); PatternPt.add(new Point(350, 100));
-            Wzor.lineTo(300, 200); PatternPt.add(new Point(300, 200));
-            Wzor.lineTo(250, 250); PatternPt.add(new Point(250, 250));
-            Wzor.lineTo(250, 450); PatternPt.add(new Point(250, 450));
-            Wzor.lineTo(350, 400); PatternPt.add(new Point(350, 400));
-            Wzor.lineTo(450, 300); PatternPt.add(new Point(450, 300));
-            Wzor.lineTo(330, 350); PatternPt.add(new Point(330, 350));
-            Wzor.lineTo(250, 450); PatternPt.add(new Point(250, 450));
+            Wzor.moveTo(90, 600);
+            Wzor.lineTo(90, 400);
+            Wzor.lineTo(240, 200);
+            Wzor.lineTo(390, 400);
+            Wzor.lineTo(390, 600);
+
+
+
         }
         public Tory(){}
     }
