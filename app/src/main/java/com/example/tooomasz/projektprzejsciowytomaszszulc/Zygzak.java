@@ -176,24 +176,32 @@ public class Zygzak extends ActionBarActivity {
             float eventX = event.getX();
             float eventY = event.getY();
 
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:   // Wykryto  nowy dotyk
 
+            switch (event.getAction()) {
+
+                case MotionEvent.ACTION_DOWN:   // Wykryto  nowy dotyk
+                    int Psize = PathPoints.size();
                     drawPath.moveTo(eventX, eventY);
-                    PathPoints.add(new Point(eventX, eventY));
+                    while(PathPoints.get(Psize).getX() != eventX  && PathPoints.get(Psize).getY() != eventY) {
+                        PathPoints.add(new Point(eventX, eventY));
+                    }
                     invalidate();
                     break;
 
                 case MotionEvent.ACTION_MOVE:   // Przesunięcie palca
-
+                    int Psize1 = PathPoints.size();
                     drawPath.lineTo(eventX, eventY);
-                    PathPoints.add(new Point(eventX, eventY));
+                    while(PathPoints.get(Psize1).getX() != eventX  && PathPoints.get(Psize1).getY() != eventY) {
+                        PathPoints.add(new Point(eventX, eventY));
+                    }
                     invalidate();
                     break;
 
                 case MotionEvent.ACTION_UP: // Palec zabrany z ekranu
-
-                    PathPoints.add(new Point(eventX, eventY));
+                    int Psize3 = PathPoints.size();
+                    while(PathPoints.get(Psize3).getX() != eventX  && PathPoints.get(Psize3).getY() != eventY) {
+                        PathPoints.add(new Point(eventX, eventY));
+                    }
                     drawPath.reset();
                     Wzor.reset();                       //usuniecie z pamieci poprzedniego
 
