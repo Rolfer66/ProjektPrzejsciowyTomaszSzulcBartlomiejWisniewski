@@ -33,6 +33,7 @@ public class Zygzak extends ActionBarActivity {
     List<Point> PathPoints = new ArrayList<Point>();
     Tory Tor1 = new Tory();
     int rand=0;
+    int zapal=0, zapal1=0, zapal2=0, zapal3=0, zapal4=0, zapal5=0, zapal6=0, zapal7=0, zapal8=0;
     int Licznik=1, LicznikProb=1;    // zmienna do liczenia wystąpień rysowanych wzorów
 
 
@@ -52,7 +53,7 @@ public class Zygzak extends ActionBarActivity {
 
     public class CanvasView extends View implements Serializable {
 
-        Paint drawPaint, WzorPaint, NinePointsPaint, NineCirclesPaint, drawCanvasPaint;
+        Paint drawPaint, WzorPaint, NinePointsPaint, NineCirclesPaint, drawCanvasPaint, NineShinePaint;
         Canvas drawCanvas;
         Path CirclePath;
 
@@ -68,6 +69,7 @@ public class Zygzak extends ActionBarActivity {
             drawCanvas = new Canvas();
             NinePointsPaint = new Paint();
             drawCanvasPaint = new Paint();
+            NineShinePaint  = new Paint();
             CirclePath = new Path();            //wyswietlani najechania nie dziala panie
             NineCirclesPaint = new Paint();
 
@@ -83,6 +85,11 @@ public class Zygzak extends ActionBarActivity {
             NineCirclesPaint.setStyle(Paint.Style.STROKE);
             NineCirclesPaint.setAntiAlias(true);
             NineCirclesPaint.setStrokeWidth(2f);
+
+            NineShinePaint.setColor(Color.RED);
+            NineShinePaint.setStyle(Paint.Style.FILL_AND_STROKE);
+            NineShinePaint.setAntiAlias(true);
+            NineShinePaint.setStrokeWidth(2f);
 
             //paint wzoru
             WzorPaint.setStyle(Paint.Style.STROKE);
@@ -143,6 +150,44 @@ public class Zygzak extends ActionBarActivity {
 
 
             // Rysowanie 9 punktów
+            switch(zapal) {
+                case 0: canvas.drawCircle(90, 200, 20, NineCirclesPaint); break;
+                case 1: canvas.drawCircle(90, 200, 20, NineShinePaint); break;
+            }
+            switch(zapal1) {
+                case 0: canvas.drawCircle(240, 200, 20, NineCirclesPaint); break;
+                case 1: canvas.drawCircle(240, 200, 20, NineShinePaint); break;
+            }
+            switch(zapal2) {
+                case 0: canvas.drawCircle(390, 200, 20, NineCirclesPaint); break;
+                case 1: canvas.drawCircle(390, 200, 20, NineShinePaint); break;
+            }
+            switch(zapal3) {
+                case 0: canvas.drawCircle(90, 400, 20, NineCirclesPaint); break;
+                case 1: canvas.drawCircle(90, 400, 20, NineShinePaint); break;
+            }
+            switch(zapal4) {
+                case 0: canvas.drawCircle(240, 400, 20, NineCirclesPaint); break;
+                case 1: canvas.drawCircle(240, 400, 20, NineShinePaint); break;
+            }
+            switch(zapal5) {
+                case 0: canvas.drawCircle(390, 400, 20, NineCirclesPaint); break;
+                case 1: canvas.drawCircle(390, 400, 20, NineShinePaint); break;
+            }
+            switch(zapal6) {
+                case 0: canvas.drawCircle(90, 600, 20, NineCirclesPaint); break;
+                case 1: canvas.drawCircle(90, 600, 20, NineShinePaint); break;
+            }
+            switch(zapal7) {
+                case 0: canvas.drawCircle(240, 600, 20, NineCirclesPaint); break;
+                case 1: canvas.drawCircle(240, 600, 20, NineShinePaint); break;
+            }
+            switch(zapal8) {
+                case 0: canvas.drawCircle(390, 600, 20, NineCirclesPaint); break;
+                case 1: canvas.drawCircle(390, 600, 20, NineShinePaint); break;
+            }
+
+
             canvas.drawCircle(90, 200, 9, NinePointsPaint);
             canvas.drawCircle(240, 200, 9, NinePointsPaint);
             canvas.drawCircle(390, 200, 9, NinePointsPaint);
@@ -180,30 +225,52 @@ public class Zygzak extends ActionBarActivity {
             switch (event.getAction()) {
 
                 case MotionEvent.ACTION_DOWN:   // Wykryto  nowy dotyk
-                    int Psize = PathPoints.size();
+
                     drawPath.moveTo(eventX, eventY);
-                    while(PathPoints.get(Psize).getX() != eventX  && PathPoints.get(Psize).getY() != eventY) {
-                        PathPoints.add(new Point(eventX, eventY));
-                    }
+                    PathPoints.add(new Point(eventX, eventY));
                     invalidate();
                     break;
 
                 case MotionEvent.ACTION_MOVE:   // Przesunięcie palca
+
                     int Psize1 = PathPoints.size();
                     drawPath.lineTo(eventX, eventY);
-                    while(PathPoints.get(Psize1).getX() != eventX  && PathPoints.get(Psize1).getY() != eventY) {
+                    if(PathPoints.get(Psize1-1).getX() != eventX  && PathPoints.get(Psize1-1).getY() != eventY) {
                         PathPoints.add(new Point(eventX, eventY));
                     }
+
+
+                    if(zapal==0) { if (Math.sqrt(Math.pow(PathPoints.get(Psize1 - 1).getX() - 90, 2) + Math.pow(PathPoints.get(Psize1 - 1).getY() - 200, 2)) < 30)  zapal = 1; }
+                    if(zapal1==0) { if (Math.sqrt(Math.pow(PathPoints.get(Psize1 - 1).getX() - 240, 2) + Math.pow(PathPoints.get(Psize1 - 1).getY() - 200, 2)) < 30)  zapal1 = 1; }
+                    if(zapal2==0) { if (Math.sqrt(Math.pow(PathPoints.get(Psize1 - 1).getX() - 390, 2) + Math.pow(PathPoints.get(Psize1 - 1).getY() - 200, 2)) < 30)  zapal2 = 1; }
+                    if(zapal3==0) { if (Math.sqrt(Math.pow(PathPoints.get(Psize1 - 1).getX() - 90, 2) + Math.pow(PathPoints.get(Psize1 - 1).getY() - 400, 2)) < 30)  zapal3 = 1; }
+                    if(zapal4==0) { if (Math.sqrt(Math.pow(PathPoints.get(Psize1 - 1).getX() - 240, 2) + Math.pow(PathPoints.get(Psize1 - 1).getY() - 400, 2)) < 30)  zapal4 = 1; }
+                    if(zapal5==0) { if (Math.sqrt(Math.pow(PathPoints.get(Psize1 - 1).getX() - 390, 2) + Math.pow(PathPoints.get(Psize1 - 1).getY() - 400, 2)) < 30)  zapal5 = 1; }
+                    if(zapal6==0) { if (Math.sqrt(Math.pow(PathPoints.get(Psize1 - 1).getX() - 90, 2) + Math.pow(PathPoints.get(Psize1 - 1).getY() - 600, 2)) < 30)  zapal6 = 1; }
+                    if(zapal7==0) { if (Math.sqrt(Math.pow(PathPoints.get(Psize1 - 1).getX() - 240, 2) + Math.pow(PathPoints.get(Psize1 - 1).getY() - 600, 2)) < 30)  zapal7 = 1; }
+                    if(zapal8==0) { if (Math.sqrt(Math.pow(PathPoints.get(Psize1 - 1).getX() - 390, 2) + Math.pow(PathPoints.get(Psize1 - 1).getY() - 600, 2)) < 30)  zapal8 = 1; }
+
+
                     invalidate();
                     break;
 
                 case MotionEvent.ACTION_UP: // Palec zabrany z ekranu
                     int Psize3 = PathPoints.size();
-                    while(PathPoints.get(Psize3).getX() != eventX  && PathPoints.get(Psize3).getY() != eventY) {
+                    if(PathPoints.get(Psize3-1).getX() != eventX  && PathPoints.get(Psize3-1).getY() != eventY) {
                         PathPoints.add(new Point(eventX, eventY));
                     }
                     drawPath.reset();
-                    Wzor.reset();                       //usuniecie z pamieci poprzedniego
+                    Wzor.reset();//usuniecie z pamieci poprzedniego
+
+                    zapal=0;
+                    zapal1=0;
+                    zapal2=0;
+                    zapal3=0;
+                    zapal4=0;
+                    zapal5=0;
+                    zapal6=0;
+                    zapal7=0;
+                    zapal8=0;
 
                     SimpleDateFormat simpleDateHere = new SimpleDateFormat("yyyy-MM-dd (Z)");
                     System.out.println("dzisiaj mamy: " + simpleDateHere.format(new Date()).toString());
